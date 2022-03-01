@@ -57,12 +57,13 @@ npm start
 ```
 
 #### development -- nodemon and prettier
+
 ```bash
 npm run local
 ```
 
 just use
-```npm run format```
+`npm run format`
 to format without running
 
 no test scripts have been configured
