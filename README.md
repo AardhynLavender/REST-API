@@ -8,6 +8,8 @@ For now, I can think of 5 Collections that include at least 7 relationships
 
 `users` `ingredients` `utensils` `components` `recipes`
 
+### Use Cases
+
 These collections in conjunction with the API will allow users to:
 
 - create `users` that will manipulate and query data. ( They will 'author' `components` and `recipes`, and 'own' `ingredients` and `utensils` )
@@ -48,9 +50,22 @@ npm install
 
 ### Local Deployment
 
+#### basic run
+
 ```bash
 npm start
 ```
+
+#### development -- nodemon and prettier
+```bash
+npm run local
+```
+
+just use
+```npm run format```
+to format without running
+
+no test scripts have been configured
 
 ### Remote Deployment ( Heroku )
 
