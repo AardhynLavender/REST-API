@@ -5,7 +5,7 @@
 	"main": "app.ts",
 	"scripts": {
 		"format": "npx prettier --write .",
-		"start": "node app.ts",
+		"start": "ts-node app.ts",
 		"local": "npm run format && nodemon app.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
