@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import process from 'process'
 
 // configure Express
-const PORT: string = '4000' || process.env.PORT
+const PORT: string = process.env.PORT || '4000'
 export const application = express()
 
 // include routes
