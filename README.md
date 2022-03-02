@@ -32,9 +32,23 @@ http://somewhereOnPostman
 
 Start all requests with
 
+### Login
+
+|Username|Password|
+|:---|:---|
+|*guest*|*correct-horse-battery-staple*|
+
 ```url
-http://undeterminedappname/v1/
+https://recipe-repository-api.herokuapp.com/v1/login
 ```
+use the provided token to access the other endpoints
+
+### Base Endpoint
+```url
+https://recipe-repository-api.herokuapp.com/v1/
+```
+
+see the [API documentation]() for the available functions
 
 ## Installation
 
