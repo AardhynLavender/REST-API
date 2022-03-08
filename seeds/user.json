@@ -1,5 +1,5 @@
 {
 	"username": "guest",
-	"name": { "first": "Bill", "last": "cypher" },
-	"email": "bill@buygold.com"
+	"name": { "first": "guest", "last": "" },
+	"email": "guest@notadomain.com"
 }

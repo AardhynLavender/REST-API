@@ -21,7 +21,9 @@
 	"homepage": "https://github.com/otago-polytechnic-bit-courses/intro-app-dev-2022-project-1-node-js-rest-api-AardhynLavender#readme",
 	"dependencies": {
 		"@types/express": "^4.17.13",
+		"@types/mongoose": "^5.11.97",
 		"@types/node": "^17.0.21",
+		"dotenv": "^16.0.0",
 		"express": "^4.17.3",
 		"nodemon": "^2.0.15",
 		"prettier": "^2.5.1",
