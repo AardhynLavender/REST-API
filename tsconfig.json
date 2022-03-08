@@ -6,7 +6,5 @@
 		"esModuleInterop": true,
 		"module": "commonjs"
 	},
-	"exclude" : [
-		"node_modules"  /* exclude everything in  node_modules */
-	]
+	"exclude": ["node_modules" /* exclude everything in  node_modules */]
 }

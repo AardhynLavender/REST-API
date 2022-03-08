@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import express, { Response, Request } from 'Express'
-=======
-import { Response, Request } from "express";
->>>>>>> 7a5987b (further tests to allow heroku to build project)
+import { Response, Request } from 'express'
 
 interface Message {
 	message: string

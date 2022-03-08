@@ -34,16 +34,18 @@ Start all requests with
 
 ### Login
 
-|Username|Password|
-|:---|:---|
-|*guest*|*correct-horse-battery-staple*|
+| Username | Password                       |
+| :------- | :----------------------------- |
+| _guest_  | _correct-horse-battery-staple_ |
 
 ```url
 https://recipe-repository-api.herokuapp.com/v1/login
 ```
+
 use the provided token to access the other endpoints
 
 ### Base Endpoint
+
 ```url
 https://recipe-repository-api.herokuapp.com/v1/
 ```

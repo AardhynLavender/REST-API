@@ -6,7 +6,7 @@ const PORT: string = process.env.PORT || '4000'
 export const application = express()
 
 // include routes
-require('./routes/testRoute')
+// require('./routes/testRoute')
 // ...
 // ...
 
