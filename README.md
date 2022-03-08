@@ -4,7 +4,7 @@
 
 The application will provide the functionality to create, read, update, and delete information in a recipe repository.
 
-For now, I can think of 5 Collections that include at least 7 relationships
+For now, I can think of 5 Collections that include potentially 7 relationships.
 
 `users` `ingredients` `utensils` `components` `recipes`
 
@@ -24,25 +24,29 @@ I aim to use this API as the backend for my React CRUD
 
 ## Postman API Documentation
 
+> _documentation currently unavailable_
+
 ```url
 http://somewhereOnPostman
 ```
 
 ## Live Application
 
-Start all requests with
+Before requesting, login first
 
 ### Login
 
-| Username | Password                       |
-| :------- | :----------------------------- |
-| _guest_  | _correct-horse-battery-staple_ |
+> _this endpoint has not yet been implimented_
+
+| Username    | Password                           |
+| :---------- | :--------------------------------- |
+| ~~_guest_~~ | ~~_correct-horse-battery-staple_~~ |
 
 ```url
 https://recipe-repository-api.herokuapp.com/v1/login
 ```
 
-use the provided token to access the other endpoints
+This will authenticate the application's routes for `1 hour`, clearing cache notwithstanding
 
 ### Base Endpoint
 
@@ -50,11 +54,11 @@ use the provided token to access the other endpoints
 https://recipe-repository-api.herokuapp.com/v1/
 ```
 
-see the [API documentation]() for the available functions
+see the ~~[API documentation]()~~ for the available functions
 
-## Installation
+## Cloning and Installation
 
-Run in the directory you keep your git repositories
+excecute in the directory you keep your git repositories
 
 _requires:_ `node` `npm`
 
@@ -78,23 +82,14 @@ npm start
 npm run local
 ```
 
-just use
-`npm run format`
-to format without running
+just use `npm run format` to format without running. alternatively, configure prettier to `format on save`
 
-no test scripts have been configured
+No test scripts have been configured, `npm run test` does nothing.
 
-### Remote Deployment ( Heroku )
+### Deployment Configuration ( Heroku )
 
 ```bash
 
-```
-
-## Project Structure
-
-```
-./
-+--loremipsum.cpp
 ```
 
 ---

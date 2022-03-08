@@ -16,6 +16,7 @@ export const GetIngredients = async (
 	req: Request,
 	res: Response
 ): Promise<Response<any>> => {
+	console.log('Called!')
 	try {
 		const ingredients: Array<IIngredient> = await Ingredient.find({})
 		return res.status(200).json({ success: 1, data: ingredients })
