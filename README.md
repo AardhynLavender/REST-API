@@ -4,49 +4,33 @@
 
 The application will provide the functionality to create, read, update, and delete information in a recipe repository.
 
-For now, I can think of 5 Collections that include potentially 7 relationships.
-
-`users` `ingredients` `utensils` `components` `recipes`
-
 ### Use Cases
 
-These collections in conjunction with the API will allow users to:
-
-- create `users` that will manipulate and query data. ( They will 'author' `components` and `recipes`, and 'own' `ingredients` and `utensils` )
+- create `users` that will manipulate and query data. ( They will 'author' `components` and `recipes`.
 - define `components` that group `ingredients` and `utensils` together -- i.e. _Fry Egg_, _bread fish_.
-- combine `components` to create `recipes`
-- request all `recipes` that use **x, y, z** ingredients
-- query all `ingredients` for a given `recipe`
-- request all `recipes` that take less than **n** to create
-- [ as the project evolves, perhaps more... ]
+- combine `components` to define `recipes`
 
 I aim to use this API as the backend for my React CRUD
 
-## Postman API Documentation
-
-> _documentation currently unavailable_
+## Postman Documentation
 
 ```url
-http://somewhereOnPostman
+
 ```
 
 ## Live Application
 
-Before requesting, login first
+Before requesting, Register a user using the `/register` endpoint -- explained in the Postman Documentation
 
 ### Login
 
-> _this endpoint has not yet been implimented_
-
-| Username    | Password                           |
-| :---------- | :--------------------------------- |
-| ~~_guest_~~ | ~~_correct-horse-battery-staple_~~ |
+Login with a `username`|`email` and your `password` -- documented in Postman
 
 ```url
-https://recipe-repository-api.herokuapp.com/v1/login
+https://recipe-repository-api.herokuapp.com/login
 ```
 
-This will authenticate the application's routes for `1 hour`, clearing cache notwithstanding
+Successfully logging in will authenticate the application's routes for a specified amount -- clearing cache notwithstanding.
 
 ### Base Endpoint
 
@@ -58,25 +42,75 @@ see the ~~[API documentation]()~~ for the available functions
 
 ## Cloning and Installation
 
-excecute in the directory you keep your git repositories
+execute in the directory you keep your git repositories
 
-_requires:_ `node` `npm`
+_requires:_ `node > 4.0` and `npm > 6.0`
 
 ```bash
 git clone https://github.com/otago-polytechnic-bit-courses/intro-app-dev-2022-project-1-node-js-rest-api-AardhynLavender
 cd intro-app-dev-2022-project-1-node-js-rest-api-AardhynLavender
 npm install
+vim app.ts
 ```
 
 ### Local Deployment
 
-#### basic run
+#### Configure Environment
+
+set environment variables in `template.env`
+
+remember to rename--`git` will ignore nameless `.env` files.
+
+```bash
+mv template.env .env
+vim .env
+```
+
+---
+
+**MONGO_URI**
+
+create a `MongoDB` atlas cluster, and retrieve the `connection string` for a Node.js application.
+
+set `mongo_URI` to your connection string replacing`<password>` with the password for your created admin user.
+
+If you have multiple databases, you might need to check the `database name` is correct.
+
+Do not create any collections! The API's defined models will create the collections for us if they don't exist.
+
+---
+
+**JWT_SECRET**
+
+You can choose what this is, preferably the longer the better, like--_but don't use_--this one:
+
+```.env
+JWT_SECRET=correct-horse-battery-staple
+```
+
+---
+
+**JWT_LIFETIME**
+
+How long should a user be logged in before authentication is required again? I prefer `1h`.
+
+specify an integer and a unit, _1h, 2h, 30m, 10s_
+
+```.env
+JWT_LIFETIME=<integer><unit>
+```
+
+---
+
+#### Standard Run
 
 ```bash
 npm start
 ```
 
-#### development -- nodemon and prettier
+#### Development Run -- Nodemon
+
+Restarts the node process based on changes
 
 ```bash
 npm run local
