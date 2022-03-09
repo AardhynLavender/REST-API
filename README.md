@@ -6,7 +6,7 @@ The application will provide the functionality to create, read, update, and dele
 
 ### Use Cases
 
-- create `users` that will manipulate and query data. ( They will 'author' `components` and `recipes`.
+- create `users` that will manipulate and query data. ( They will 'author' `components` and `recipes`, and 'own' `ingredients` and `utensils`
 - define `components` that group `ingredients` and `utensils` together -- i.e. _Fry Egg_, _bread fish_.
 - combine `components` to define `recipes`
 
