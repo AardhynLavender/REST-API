@@ -1,22 +1,28 @@
 import { Ingredient, IIngredient } from '../models/ingredient'
 import { Request, Response } from 'express'
 
-interface IIngredientRequest {
-	name: string
-}
-
-const mSanitizeIngredient = (
-	ingredient: IIngredientRequest
-): IIngredientRequest => ({
+/**
+ * Sanitize the contents of an ingredient type
+ * @param { IIngredientRequest } ingredient - ingredient to sanitize
+ * @returns { IIngredientRequest } IIngredientRequest
+ */
+const mSanitizeIngredient = (ingredient: IIngredient): IIngredient => ({
 	...ingredient,
 	name: ingredient.name.toLowerCase().trim(),
 })
 
+/**
+
+/**
+ * Gets **all** ingredients from the database
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns all ingredients in the collection
+ */
 export const GetIngredients = async (
 	req: Request,
 	res: Response
-): Promise<Response<any>> => {
-	console.log('Called!')
+): Promise<any> => {
 	try {
 		const ingredients: Array<IIngredient> = await Ingredient.find({})
 		return res.status(200).json({ success: 1, data: ingredients })
@@ -27,16 +33,21 @@ export const GetIngredients = async (
 	}
 }
 
+/**
+ * Create a new **unique** ingredient
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns if successful - the updated collection
+ */
 export const CreateIngredient = async (
 	req: Request,
 	res: Response
-): Promise<Response<any>> => {
+): Promise<any> => {
 	try {
-		const ingredient: IIngredientRequest = req.body
+		const ingredient: IIngredient = req.body
 
 		// check if ingredient is not null|undefined
 		if (ingredient) {
-			// sanitize input -- remove capitalized characters and trim whitespace
 			const sanitizedIngredient = mSanitizeIngredient(ingredient)
 
 			// check if ingredient is unique
@@ -60,20 +71,29 @@ export const CreateIngredient = async (
 				.json({ success: false, msg: 'Please provide a name' })
 	} catch (err) {
 		// managed exception, return err
-		res.status(409).json({
+		return res.status(409).json({
 			success: false,
 			message: err || 'Failed to create an ingredient',
 		})
 	}
 }
 
-export const UpdateIngredient = async (req, res) => {
+/**
+ * Updates the ingredient of the given **_id** with the provided ingredient in the body
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns if successful - The updated collection
+ */
+export const UpdateIngredient = async (
+	req: Request,
+	res: Response
+): Promise<any> => {
 	const { id } = req.params
-	const ingredient = req.body
+	const ingredient: IIngredient = req.body
+
 	try {
 		if (ingredient) {
-			const sanitizedIngredient: IIngredientRequest =
-				mSanitizeIngredient(ingredient)
+			const sanitizedIngredient: IIngredient = mSanitizeIngredient(ingredient)
 
 			// test if the updated name
 			const exists: IIngredient = await Ingredient.findOne({
@@ -88,51 +108,59 @@ export const UpdateIngredient = async (req, res) => {
 				)
 
 				if (found) {
-					const mutated = await Ingredient.find({})
-					return res.status(200).json({ success: 1, data: mutated })
+					const mutated: Array<IIngredient> = await Ingredient.find({})
+					return res.status(200).json({ success: true, data: mutated })
 				} else
 					return res.status(400).json({
-						success: 0,
-						msg:
-							"An id of '" +
-							id +
-							"' yields no ingredient and cannot be mutated",
+						success: false,
+						msg: `An id of
+							${id}
+							yields no ingredient and cannot be mutated`,
 					})
 			} else
-				res.status(409).json({
-					success: 0,
+				return res.status(409).json({
+					success: false,
 					msg: 'mutation must return a unique set',
 				})
 		} else
-			res.status(403).json({
+			return res.status(403).json({
 				success: 0,
 				msg: 'Request body contains no ingredient!',
 			})
 	} catch (err) {
-		console.log(err)
 		return res.status(403).json({
-			success: 0,
+			success: false,
 			msg: err || 'Failed to update!',
 		})
 	}
 }
 
-export const DeleteIngredient = async (req, res) => {
+/**
+ * Deletes the ingredient with the provided **_id** should it exist
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns if successful - The updated collection
+ */
+export const DeleteIngredient = async (
+	req: Request,
+	res: Response
+): Promise<any> => {
 	const { id } = req.params
+
 	try {
-		const ingredient = await Ingredient.findByIdAndRemove(id)
+		const ingredient: IIngredient = await Ingredient.findByIdAndRemove(id)
 
 		if (ingredient) {
-			const mutated = await Ingredient.find({})
-			return res.status(200).json({ success: 1, data: mutated })
+			const mutated: Array<IIngredient> = await Ingredient.find({})
+			return res.status(200).json({ success: true, data: mutated })
 		} else
 			return res.status(404).json({
-				success: 0,
-				msg: "An id of '" + id + "' yields no ingredient and cannot be deleted",
+				success: false,
+				msg: `An id of ${id} yields no ingredient and cannot be deleted`,
 			})
 	} catch (err) {
 		return res
 			.status(404)
-			.json({ success: 0, msg: err || 'Failed to delete ingredient' })
+			.json({ success: false, msg: err || 'Failed to delete ingredient!' })
 	}
 }

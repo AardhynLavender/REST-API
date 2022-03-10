@@ -1,10 +1,10 @@
-import { Document, Schema, Model, model } from 'mongoose'
+import { Schema, Model, model } from 'mongoose'
 
-export interface IIngredient extends Document {
+export interface IIngredient {
 	name: string
 }
 
-const ingredient = new Schema<IIngredient>({
+const ingredient: Schema<IIngredient> = new Schema<IIngredient>({
 	name: { type: String, required: true },
 })
 
