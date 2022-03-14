@@ -3,15 +3,13 @@ import { Request, Response } from 'express'
 
 /**
  * Sanitize the contents of an ingredient type
- * @param { IIngredientRequest } ingredient - ingredient to sanitize
- * @returns { IIngredientRequest } IIngredientRequest
+ * @param { IIngredient } ingredient - ingredient to sanitize
+ * @returns { IIngredient } IIngredientRequest
  */
 const mSanitizeIngredient = (ingredient: IIngredient): IIngredient => ({
 	...ingredient,
-	name: ingredient.name.toLowerCase().trim(),
+	name: ingredient.name.toLowerCase().trim() ?? '',
 })
-
-/**
 
 /**
  * Gets **all** ingredients from the database
@@ -28,7 +26,7 @@ export const GetIngredients = async (
 		return res.status(200).json({ success: 1, data: ingredients })
 	} catch (err) {
 		return res.status(500).json({
-			msg: err.message || 'ingredients could not be fetched',
+			message: err.message || 'ingredients could not be fetched',
 		})
 	}
 }
@@ -50,27 +48,16 @@ export const CreateIngredient = async (
 		if (ingredient) {
 			const sanitizedIngredient = mSanitizeIngredient(ingredient)
 
-			// check if ingredient is unique
-			const exists: IIngredient = await Ingredient.findOne({
-				name: sanitizedIngredient.name.toLowerCase().trim(),
-			})
+			// create ingredient and return updated collection
+			await Ingredient.create(sanitizedIngredient)
+			const ingredients: Array<IIngredient> = await Ingredient.find({})
 
-			if (!exists) {
-				// create ingredient and return updated collection
-				await Ingredient.create(sanitizedIngredient)
-				const ingredients: Array<IIngredient> = await Ingredient.find({})
-
-				return res.status(201).send({ success: true, data: ingredients })
-			} else
-				return res
-					.status(409)
-					.send({ success: false, msg: 'ingredient was not unique' })
+			return res.status(201).send({ success: true, data: ingredients })
 		} else
 			return res
 				.status(201)
-				.json({ success: false, msg: 'Please provide a name' })
+				.json({ success: false, message: 'Please provide a name' })
 	} catch (err) {
-		// managed exception, return err
 		return res.status(409).json({
 			success: false,
 			message: err || 'Failed to create an ingredient',
@@ -93,44 +80,28 @@ export const UpdateIngredient = async (
 
 	try {
 		if (ingredient) {
-			const sanitizedIngredient: IIngredient = mSanitizeIngredient(ingredient)
+			// update the ingredient
+			const found = await Ingredient.findByIdAndUpdate(id, ingredient)
 
-			// test if the updated name
-			const exists: IIngredient = await Ingredient.findOne({
-				name: sanitizedIngredient.name.toLowerCase().trim(),
-			})
-
-			if (!exists) {
-				// update the ingredient
-				const found = await Ingredient.findByIdAndUpdate(
-					id,
-					sanitizedIngredient
-				)
-
-				if (found) {
-					const mutated: Array<IIngredient> = await Ingredient.find({})
-					return res.status(200).json({ success: true, data: mutated })
-				} else
-					return res.status(400).json({
-						success: false,
-						msg: `An id of
+			if (found) {
+				const mutated: Array<IIngredient> = await Ingredient.find({})
+				return res.status(200).json({ success: true, data: mutated })
+			} else
+				return res.status(400).json({
+					success: false,
+					message: `An id of
 							${id}
 							yields no ingredient and cannot be mutated`,
-					})
-			} else
-				return res.status(409).json({
-					success: false,
-					msg: 'mutation must return a unique set',
 				})
 		} else
 			return res.status(403).json({
 				success: 0,
-				msg: 'Request body contains no ingredient!',
+				message: 'Request body contains no ingredient!',
 			})
 	} catch (err) {
 		return res.status(403).json({
 			success: false,
-			msg: err || 'Failed to update!',
+			message: err || 'Failed to update!',
 		})
 	}
 }
@@ -156,11 +127,11 @@ export const DeleteIngredient = async (
 		} else
 			return res.status(404).json({
 				success: false,
-				msg: `An id of ${id} yields no ingredient and cannot be deleted`,
+				message: `An id of ${id} yields no ingredient and cannot be deleted`,
 			})
 	} catch (err) {
 		return res
 			.status(404)
-			.json({ success: false, msg: err || 'Failed to delete ingredient!' })
+			.json({ success: false, message: err || 'Failed to delete ingredient!' })
 	}
 }
