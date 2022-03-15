@@ -21,7 +21,10 @@ import { connection } from './connection'
 // import routes
 
 import ingredients from './routes/ingredients'
+import users from './routes/user'
+
 application.use('/api/v1/ingredients', ingredients)
+application.use('/api/v1/users/', users)
 
 // initialize application
 
