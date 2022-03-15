@@ -1,3 +1,13 @@
+/**
+ * @name 		Ingredient
+ * @author 		Aardhyn Lavender
+ *
+ * @description Controls the 'Ingredients' MongoDB collection, providing
+ * 				basic GET, POST, PUT, and DELETE request operations as
+ * 				well as routes to sort, paginate, and filter ingredients
+ * 				in the database.
+ */
+
 import { Ingredient, IIngredient } from '../models/ingredient'
 import { Request, Response } from 'express'
 
