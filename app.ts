@@ -23,8 +23,8 @@ import { connection } from './connection'
 import ingredients from './routes/ingredients'
 application.use('/api/v1/ingredients', ingredients)
 
-import users from './routes/user'
-application.use('/api/v1/users/', users)
+import auth from './routes/auth'
+application.use('/', auth)
 
 import utensil from './routes/utensil'
 application.use('/api/v1/utensils/', utensil)
@@ -36,7 +36,7 @@ const ListenReporter = (): void => console.log('listening on ' + PORT + '!')
 const Main = async () => {
 	try {
 		// attempt to connect to the database
-		await connection(MONGO)
+		connection(MONGO)
 
 		// listen for requests
 		application.listen(PORT, ListenReporter)
