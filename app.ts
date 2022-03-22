@@ -19,7 +19,7 @@ application.use(express.json())
 
 // MongoDB connection //////////////////////////////
 
-import { connection } from './connection'
+import { connection } from './db/connection'
 
 // Import routes ///////////////////////////////////
 
