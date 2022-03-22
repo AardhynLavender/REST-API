@@ -48,6 +48,6 @@ const Main = async () => {
 	}
 }
 
-if (PORT && MONGO) Main()
+if (PORT && MONGO && SECRET) Main()
 else
 	throw '[App.ts] Could not parse environment variables -- is a .ENV file present?'
