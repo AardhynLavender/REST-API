@@ -3,7 +3,7 @@ const router = Router()
 
 import { Register, Login, Logout } from '../controller/auth'
 
-router.route('/register').get(Register)
+router.route('/register').post(Register)
 router.route('/login').get(Login)
 router.route('/logout').get(Logout)
 

@@ -48,8 +48,10 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 	try {
 		const { username, email, password }: ICredentials = req.body
 
-		// validate users email ?? username
-		const user: IUser = await User.findOne({ username } ?? { email })
+		// validate users email or username
+		const user: IUser = await User.findOne({
+			[username || email]: username || email,
+		})
 
 		if ((username || email) && password)
 			if (user) {

@@ -5,13 +5,16 @@ dotenv.config()
 
 const PORT: string = process.env.PORT || '4000'
 const MONGO: string = process.env.MONGO_URI
+const SECRET: string = process.env.JWT_SECRET
 
 // Configure Express //////////////////////////////
 
 import express from 'express'
+import cookieParser from 'cookie-parser'
 export const application = express()
 
 application.use(express.urlencoded({ extended: false }))
+application.use(cookieParser(SECRET))
 application.use(express.json())
 
 // MongoDB connection //////////////////////////////

@@ -29,7 +29,6 @@ export const AttachCookies = (response: Response, user: IToken): void => {
 		httpOnly: true,
 		expires: expiry,
 		secure: isProduction,
-		signed: true, // Works when this is false
+		signed: true,
 	})
-	console.log('cookie attached!')
 }
