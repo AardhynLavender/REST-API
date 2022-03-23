@@ -1,4 +1,3 @@
-import { GetComponents } from '../controller/component'
 /**
  * @name 		Component
  * @author 		Aardhyn Lavender
@@ -68,7 +67,7 @@ const mValidateUtensils = async (utensils: Array<ObjectId>): Promise<boolean> =>
 
 const mValidateDuration = (duration: Number): boolean => duration > 0
 
-// Schemas //////////////////////// //////////////
+// Schemas ///////////////////////////////////////
 
 /**
  * Defines a condiment sub-document

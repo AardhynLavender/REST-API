@@ -35,6 +35,9 @@ application.use('/api/v1/utensils/', utensil)
 import component from './routes/component'
 application.use('/api/v1/component/', component)
 
+import recipe from './routes/recipe'
+application.use('/api/v1/recipes/', recipe)
+
 // Initialize Application //////////////////////////
 
 const ListenReporter = (): void => console.log('listening on ' + PORT + '!')
