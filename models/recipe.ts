@@ -5,9 +5,7 @@
  * @description Define schema and model interfaces and Mongoose types
  */
 
-import { verify } from 'jsonwebtoken'
 import { Types, Schema, Model, model, ObjectId } from 'mongoose'
-import { Component } from './component'
 
 // Interfaces ////////////////////////////////////////////////
 

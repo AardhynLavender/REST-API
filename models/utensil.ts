@@ -1,13 +1,13 @@
-import { Schema, Model, model } from 'mongoose'
-import { IUser } from './user'
-
 /**
- * An object that must implement strings as keys for strings
- * ie :: a string enumerator
+ * @name 		Utensils
+ * @author 		Aardhyn Lavender
+ *
+ * @description Define schema and model interfaces and Mongoose types
  */
-interface IStringEnum {
-	[id: string]: string
-}
+
+import { Schema, Model, model, ObjectId } from 'mongoose'
+
+// Enumerators /////////////////////////////////////////
 
 /**
  * Defines materials for a utensil
@@ -37,6 +37,9 @@ export enum Size {
 	MEASURED = 'MEASURED',
 }
 
+// Utilities ///////////////////////////////////////////
+// TODO :: Move this function into utils...
+
 /**
  * Creates a string of values from an enumerator
  * @param enumerator the enumerator to parse
@@ -45,17 +48,29 @@ export enum Size {
 const mGetValues = (enumerator: IStringEnum): Array<string> =>
 	Object.values(enumerator).map((value: string) => value.toLowerCase())
 
+// Interfaces //////////////////////////////////////////
+
+/**
+ * An object that must implement strings as keys for strings
+ * ie :: a string enumerator
+ */
+interface IStringEnum {
+	[id: string]: string
+}
+
 /**
  * Defines a utensil used in a recipes component
  */
 export interface IUtensil {
+	_id: ObjectId
 	name: string
 	material: Material
 	size: Size
 	measurement?: string
 	description?: string
-	owning?: Array<IUser>
 }
+
+// Schemas //////////////////////////////////////////////
 
 /**
  * Defines a document model of an IUtensil type
@@ -80,13 +95,16 @@ const utensil: Schema<IUtensil> = new Schema<IUtensil>({
 		trim: true,
 	},
 	description: { type: String, required: false, maxlength: 60 },
-	owning: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 })
+
+// Mongoose Methods /////////////////////////////////////
 
 // name-material-size-measurement composite key
 utensil.index(
 	{ name: 1, material: 1, size: 1, measurement: 1 },
 	{ unique: true }
 )
+
+// Models ////////////////////////////////////////////////
 
 export const Utensil: Model<IUtensil> = model('Utensil', utensil)

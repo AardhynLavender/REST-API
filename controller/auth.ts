@@ -61,7 +61,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 				if (valid) {
 					const token: IToken = CreateTokenUser(user)
 					AttachCookies(res, token)
-					console.log('worked!')
+
 					// update last logged in time
 					user.HasLoggedIn()
 
@@ -94,6 +94,6 @@ export const Logout = async (req: Request, res: Response): Promise<any> => {
 
 	res.status(200).json({
 		success: true,
-		msg: 'Logout successfull!',
+		msg: 'Logout successful!',
 	})
 }

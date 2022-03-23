@@ -79,8 +79,7 @@ export const UpdateComponent = async (
 
 	try {
 		if (component) {
-			// update the ingredien
-
+			// update the component
 			const found = await Component.findByIdAndUpdate(id, component, {
 				runValidators: true,
 			})
@@ -96,12 +95,12 @@ export const UpdateComponent = async (
                             yields no component and cannot be mutated`,
 				})
 		} else
-			return res.status(403).json({
+			return res.status(404).json({
 				success: 0,
 				message: 'Request body contains no component!',
 			})
 	} catch (err) {
-		return res.status(403).json({
+		return res.status(404).json({
 			success: false,
 			message: err || 'Failed to update!',
 		})

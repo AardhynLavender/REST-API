@@ -12,16 +12,6 @@ import { Ingredient, IIngredient } from '../models/ingredient'
 import { Request, Response } from 'express'
 
 /**
- * Sanitize the contents of an ingredient type
- * @param { IIngredient } ingredient - ingredient to sanitize
- * @returns { IIngredient } IIngredientRequest
- */
-const mSanitizeIngredient = (ingredient: IIngredient): IIngredient => ({
-	...ingredient,
-	name: ingredient.name.toLowerCase().trim() ?? '',
-})
-
-/**
  * Gets **all** ingredients from the database
  * @param { Request } req request of the server
  * @param { Response } res response from the server
@@ -56,19 +46,17 @@ export const CreateIngredient = async (
 
 		// check if ingredient is not null|undefined
 		if (ingredient) {
-			const sanitizedIngredient = mSanitizeIngredient(ingredient)
-
 			// create ingredient and return updated collection
-			await Ingredient.create(sanitizedIngredient)
+			await Ingredient.create(ingredient)
 			const ingredients: Array<IIngredient> = await Ingredient.find({})
 
 			return res.status(201).send({ success: true, data: ingredients })
 		} else
 			return res
-				.status(201)
+				.status(400)
 				.json({ success: false, message: 'Please provide a name' })
 	} catch (err) {
-		return res.status(409).json({
+		return res.status(400).json({
 			success: false,
 			message: err || 'Failed to create an ingredient',
 		})
@@ -91,7 +79,9 @@ export const UpdateIngredient = async (
 	try {
 		if (ingredient) {
 			// update the ingredient
-			const found = await Ingredient.findByIdAndUpdate(id, ingredient)
+			const found = await Ingredient.findByIdAndUpdate(id, ingredient, {
+				runValidators: true,
+			})
 
 			if (found) {
 				const mutated: Array<IIngredient> = await Ingredient.find({})
@@ -104,12 +94,12 @@ export const UpdateIngredient = async (
 							yields no ingredient and cannot be mutated`,
 				})
 		} else
-			return res.status(403).json({
-				success: 0,
+			return res.status(400).json({
+				success: false,
 				message: 'Request body contains no ingredient!',
 			})
 	} catch (err) {
-		return res.status(403).json({
+		return res.status(400).json({
 			success: false,
 			message: err || 'Failed to update!',
 		})
@@ -141,7 +131,7 @@ export const DeleteIngredient = async (
 			})
 	} catch (err) {
 		return res
-			.status(404)
+			.status(400)
 			.json({ success: false, message: err || 'Failed to delete ingredient!' })
 	}
 }

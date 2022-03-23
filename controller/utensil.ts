@@ -10,7 +10,6 @@
 
 import { Utensil, IUtensil } from '../models/utensil'
 import { Request, Response } from 'express'
-import { IUser, User } from '../models/user'
 
 /**
  * Gets **all** utensils from the database
@@ -26,7 +25,7 @@ export const GetUtensils = async (
 		const utensils: Array<IUtensil> = await Utensil.find({})
 		return res.status(200).json({ success: 1, data: utensils })
 	} catch (err) {
-		return res.status(500).json({
+		return res.status(400).json({
 			message: err.message || 'utensils could not be fetched',
 		})
 	}
@@ -55,7 +54,7 @@ export const CreateUtensil = async (
 				.status(201)
 				.json({ success: false, message: 'Please provide a name' })
 	} catch (err) {
-		return res.status(409).json({
+		res.status(400).json({
 			success: false,
 			message: err || 'Failed to create utensil',
 		})
@@ -78,7 +77,9 @@ export const UpdateUtensil = async (
 	try {
 		if (utensil) {
 			// update the ingredient
-			const found = await Utensil.findByIdAndUpdate(id, utensil)
+			const found = await Utensil.findByIdAndUpdate(id, utensil, {
+				runValidators: true,
+			})
 
 			if (found) {
 				const mutated: Array<IUtensil> = await Utensil.find({})
@@ -128,7 +129,7 @@ export const DeleteUtensil = async (
 			})
 	} catch (err) {
 		return res
-			.status(404)
+			.status(400)
 			.json({ success: false, message: err || 'Failed to delete utensil!' })
 	}
 }

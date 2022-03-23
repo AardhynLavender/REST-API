@@ -1,5 +1,14 @@
+/**
+ * @name 		User
+ * @author 		Aardhyn Lavender
+ *
+ * @description Define schema and model interfaces and Mongoose types
+ */
+
 import { Schema, Model, model, ObjectId } from 'mongoose'
 import bcrypt from 'bcrypt'
+
+// Interfaces //////////////////////////////////////////////
 
 /**
  * Defines a name of any arbitrary person
@@ -25,10 +34,7 @@ export interface IUser {
 	HasLoggedIn(): void
 }
 
-/**
- * Defines the methods for a model of IUser
- */
-export interface IUserModel {}
+// Schema ////////////////////////////////////////////
 
 /**
  * Defines a sub-document model of an IName type
@@ -49,6 +55,8 @@ const user: Schema<IUser> = new Schema<IUser>({
 	password: { type: String, required: true }, // Application can't error if a non-unique password is entered...
 	last_logged_in: { type: Date, required: true, default: new Date() },
 })
+
+// Mongoose Methods ////////////////////////////////////////
 
 /**
  * Hash the provided password
@@ -75,5 +83,7 @@ user.methods.ComparePassword = function (password: string): Promise<boolean> {
 user.methods.HasLoggedIn = function (): void {
 	this.last_logged_in = new Date()
 }
+
+// Models ////////////////////////////////////////////////
 
 export const User: Model<IUser> = model<IUser>('User', user)
