@@ -8,7 +8,7 @@
  * 				in the database.
  */
 
-import { User, IUser, IUserModel } from '../models/user'
+import { User, IUser } from '../models/user'
 import { Request, Response } from 'express'
 import { AttachCookies } from '../utils/jwt'
 import { CreateTokenUser, IToken } from '../utils/getTokenUserData'

@@ -6,8 +6,10 @@
  */
 
 import { Types, Schema, Model, model, ObjectId } from 'mongoose'
-import { IIngredient } from './ingredient'
-import { IUser } from './user'
+import { Collection } from 'typescript'
+import { IIngredient, Ingredient } from './ingredient'
+import { IUser, User } from './user'
+import { IUtensil, Utensil } from './utensil'
 
 // Interfaces ///////////////////////////////
 
@@ -48,24 +50,31 @@ export interface IComponent {
 // Validation //////////////////////////////////
 
 /**
- * verify an array of condiments was provided.
- * @param condiments condiments to verify
- * @returns array is valid
+ * Is the duration greater than 0
+ * @param duration to validate
+ * @returns if the duration was greater than one
  */
-const mValidateCondiments = (condiments: Array<ICondiment>): boolean =>
-	Array.isArray(condiments) &&
-	!!condiments.length /* also verify each condiment _id and unique set */
+const mValidateDuration = (duration: Number): boolean => duration > 0
 
 /**
- * verify an array of utensils was provided.
- * @param utensils utensils to verify
- * @returns
+ * A Function that validates if an object exists in a collection
  */
-const mValidateUtensils = async (utensils: Array<ObjectId>): Promise<boolean> =>
-	Array.isArray(utensils) &&
-	!!utensils.length /* also verify each utensil _id and unique set */
+type ObjectValidator = (object: ObjectId) => Promise<boolean>
 
-const mValidateDuration = (duration: Number): boolean => duration > 0
+/**
+ * Creates a function that validates a relationship exists between a generic `collection` and a generic `object`
+ * @param object object to validate in `collection`
+ * @param collection collection to validate `object` in
+ * @returns an `ObjectValidator`
+ */
+const mCreateObjectValidator = <TCollection, TObject>(
+	collection: Model<TCollection>
+): ObjectValidator => {
+	return async function (object: ObjectId) {
+		const found: TObject = await collection.findById(object)
+		return !!found
+	}
+}
 
 // Schemas ///////////////////////////////////////
 
@@ -73,7 +82,15 @@ const mValidateDuration = (duration: Number): boolean => duration > 0
  * Defines a condiment sub-document
  */
 const condiment: Schema<ICondiment> = new Schema<ICondiment>({
-	ingredient: { ref: 'Ingredient', type: Types.ObjectId, required: true },
+	ingredient: {
+		ref: 'Ingredient',
+		type: Types.ObjectId,
+		required: true,
+		validate: {
+			validator: mCreateObjectValidator<IIngredient, IIngredient>(Ingredient),
+			message: 'Ingredient was not found!',
+		},
+	},
 	method: { type: String, required: false, maxlength: 50 },
 	amount: { type: String, required: false, maxlength: 20 },
 })
@@ -83,20 +100,25 @@ const condiment: Schema<ICondiment> = new Schema<ICondiment>({
  */
 const component: Schema<IComponent> = new Schema<IComponent>({
 	name: { type: String, required: true, unique: true, maxlength: 20 },
-	author: { ref: 'User', type: Types.ObjectId, required: true },
-	authored: { type: Date, required: false },
-	condiments: {
-		type: [condiment],
+	author: {
+		ref: 'User',
+		type: Types.ObjectId,
+		required: true,
 		validate: {
-			validator: mValidateCondiments,
-			message: 'Invalid condiments!',
+			validator: mCreateObjectValidator<IUser, IUser>(User),
+			message: 'User could not be found!',
 		},
 	},
+	authored: { type: Date, required: false },
+	condiments: [{ type: condiment }],
 	utensils: [
 		{
 			ref: 'Utensil',
 			type: Types.ObjectId,
-			validate: mValidateUtensils,
+			validate: {
+				validator: mCreateObjectValidator<IUtensil, IUtensil>(Utensil),
+				message: 'Utensil could not be found!',
+			},
 			required: false,
 		},
 	],
