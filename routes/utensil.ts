@@ -1,3 +1,10 @@
+/**
+ * @name 		Utensil
+ * @author 		aardhyn lavender
+ *
+ * @description provide endpoint and protocols for the recipe collection
+ */
+
 import { Router } from 'express'
 const router = Router()
 

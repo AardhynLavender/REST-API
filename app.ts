@@ -14,29 +14,41 @@ import cookieParser from 'cookie-parser'
 export const application = express()
 
 application.use(express.urlencoded({ extended: false }))
-application.use(cookieParser(SECRET))
 application.use(express.json())
+
+// Security ////////////////////////////////////////
+
+import helmet from 'helmet'
+application.use(helmet())
 
 // MongoDB connection //////////////////////////////
 
 import { connection } from './db/connection'
 
+// Authentication //////////////////////////////////
+
+import { authenticatedRoute } from './middleware/auth'
+
+application.use(cookieParser(SECRET))
+application.use('api/', authenticatedRoute)
+
 // Import routes ///////////////////////////////////
 
 import ingredients from './routes/ingredients'
-application.use('/api/v1/ingredients', ingredients)
-
-import auth from './routes/auth'
-application.use('/', auth)
+application.use('/api/v1/ingredients', authenticatedRoute, ingredients)
 
 import utensil from './routes/utensil'
-application.use('/api/v1/utensils/', utensil)
+application.use('/api/v1/utensils/', authenticatedRoute, utensil)
 
 import component from './routes/component'
-application.use('/api/v1/component/', component)
+application.use('/api/v1/component/', authenticatedRoute, component)
 
 import recipe from './routes/recipe'
-application.use('/api/v1/recipes/', recipe)
+application.use('/api/v1/recipes/', authenticatedRoute, recipe)
+
+// Intentionally unauthenticated
+import auth from './routes/auth'
+application.use('/', auth)
 
 // Initialize Application //////////////////////////
 

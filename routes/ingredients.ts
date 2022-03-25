@@ -1,3 +1,10 @@
+/**
+ * @name 		Component
+ * @author 		Aardhyn Lavender
+ *
+ * @description Provide endpoint and protocols for the Ingredient collection
+ */
+
 import { Router } from 'express'
 const router = Router()
 

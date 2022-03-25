@@ -11,7 +11,7 @@
 import { User, IUser } from '../models/user'
 import { Request, Response } from 'express'
 import { AttachCookies } from '../utils/jwt'
-import { CreateTokenUser, IToken } from '../utils/getTokenUserData'
+import { CreateTokenUser, ITokenUser } from '../utils/getTokenUserData'
 
 export interface ICredentials {
 	username?: string
@@ -25,7 +25,7 @@ export const Register = async (req: Request, res: Response): Promise<any> => {
 		const user: IUser = await User.create(req.body)
 
 		// create a token
-		const token: IToken = CreateTokenUser(user)
+		const token: ITokenUser = CreateTokenUser(user)
 		AttachCookies(res, token)
 
 		// update last logged in time
@@ -59,7 +59,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 				const valid: boolean = await user.ComparePassword(password)
 
 				if (valid) {
-					const token: IToken = CreateTokenUser(user)
+					const token: ITokenUser = CreateTokenUser(user)
 					AttachCookies(res, token)
 
 					// update last logged in time

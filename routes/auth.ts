@@ -1,3 +1,10 @@
+/**
+ * @name 		Authentication
+ * @author 		Aardhyn Lavender
+ *
+ * @description Provide endpoints for authentication and the user collection
+ */
+
 import { Router } from 'express'
 const router = Router()
 
