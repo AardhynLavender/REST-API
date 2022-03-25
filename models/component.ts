@@ -6,8 +6,8 @@
  */
 
 import { Types, Schema, Model, model, ObjectId } from 'mongoose'
-import { Collection } from 'typescript'
 import { IIngredient, Ingredient } from './ingredient'
+import { CreateObjectValidator } from '../utils/relationshipValidation'
 import { IUser, User } from './user'
 import { IUtensil, Utensil } from './utensil'
 
@@ -56,26 +56,6 @@ export interface IComponent {
  */
 const mValidateDuration = (duration: Number): boolean => duration > 0
 
-/**
- * A Function that validates if an object exists in a collection
- */
-type ObjectValidator = (object: ObjectId) => Promise<boolean>
-
-/**
- * Creates a function that validates a relationship exists between a generic `collection` and a generic `object`
- * @param object object to validate in `collection`
- * @param collection collection to validate `object` in
- * @returns an `ObjectValidator`
- */
-const mCreateObjectValidator = <TCollection, TObject>(
-	collection: Model<TCollection>
-): ObjectValidator => {
-	return async function (object: ObjectId) {
-		const found: TObject = await collection.findById(object)
-		return !!found
-	}
-}
-
 // Schemas ///////////////////////////////////////
 
 /**
@@ -87,8 +67,8 @@ const condiment: Schema<ICondiment> = new Schema<ICondiment>({
 		type: Types.ObjectId,
 		required: true,
 		validate: {
-			validator: mCreateObjectValidator<IIngredient, IIngredient>(Ingredient),
-			message: 'Ingredient was not found!',
+			validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
+			message: 'Ingredient for Condiment was not found!',
 		},
 	},
 	method: { type: String, required: false, maxlength: 50 },
@@ -105,18 +85,18 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 		type: Types.ObjectId,
 		required: true,
 		validate: {
-			validator: mCreateObjectValidator<IUser, IUser>(User),
+			validator: CreateObjectValidator<IUser, IUser>(User),
 			message: 'User could not be found!',
 		},
 	},
 	authored: { type: Date, required: false },
-	condiments: [{ type: condiment }],
+	condiments: [{ type: condiment, required: false }],
 	utensils: [
 		{
 			ref: 'Utensil',
 			type: Types.ObjectId,
 			validate: {
-				validator: mCreateObjectValidator<IUtensil, IUtensil>(Utensil),
+				validator: CreateObjectValidator<IUtensil, IUtensil>(Utensil),
 				message: 'Utensil could not be found!',
 			},
 			required: false,
@@ -124,7 +104,17 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 	],
 	method: { type: String, required: true, maxlength: 100 },
 	duration: { type: Number, required: true, mValidateDuration },
-	results: [{ ref: 'Ingredient', type: Types.ObjectId }],
+	results: [
+		{
+			ref: 'Ingredient',
+			type: Types.ObjectId,
+			validate: {
+				validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
+				message: 'Resulting ingredient could not be found!',
+			},
+			required: false,
+		},
+	],
 })
 
 // Mongoose Methods ////////////////////////////////
