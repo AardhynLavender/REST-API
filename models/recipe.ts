@@ -6,6 +6,9 @@
  */
 
 import { Types, Schema, Model, model, ObjectId } from 'mongoose'
+import { CreateObjectValidator } from '../utils/relationshipValidation'
+import { IUser, User } from './user'
+import { Component, IComponent } from './component'
 
 // Interfaces ////////////////////////////////////////////////
 
@@ -21,34 +24,6 @@ export interface IRecipe {
 	details?: string
 }
 
-// Validation ////////////////////////////////////////////////
-
-/**
- * verify user exits
- * @param user user to validate
- * @returns if the user is valid
- */
-const mValidateUser = (user: ObjectId): boolean => {
-	return true
-}
-
-/**
- * validate the length of the components array
- * @param Components to validate
- * @returns if there are at least one component
- */
-const mValidateLength = (Components: Array<ObjectId>): boolean =>
-	!!Components.length
-
-/**
- * ensure components are actually valid
- * @param components to validate
- * @returns if all components are valid
- */
-const mValidateComponents = (components: Array<ObjectId>): boolean => {
-	return true
-}
-
 // Schemas ///////////////////////////////////////////////////
 
 const recipe: Schema<IRecipe> = new Schema<IRecipe>({
@@ -57,24 +32,23 @@ const recipe: Schema<IRecipe> = new Schema<IRecipe>({
 		ref: 'User',
 		type: Types.ObjectId,
 		required: true,
-		validate: { validator: mValidateUser, message: 'Could not find author!' },
+		validate: {
+			validator: CreateObjectValidator<IUser, IUser>(User),
+			message: 'Could not find author!',
+		},
 	},
 	authored: { type: Date, required: false },
-	components: {
-		ref: 'Component',
-		type: [Types.ObjectId],
-		required: true,
-		validate: [
-			{
-				validator: mValidateLength,
-				message: 'recipe must contain at least one component!',
+	components: [
+		{
+			ref: 'Component',
+			type: Types.ObjectId,
+			required: true,
+			validate: {
+				validator: CreateObjectValidator<IComponent, IComponent>(Component),
+				message: 'Component could not be found!',
 			},
-			{
-				validator: mValidateComponents,
-				message: 'Invalid Components!',
-			},
-		],
-	},
+		},
+	],
 })
 
 // Mongoose Methods //////////////////////////////////////////

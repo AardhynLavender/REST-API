@@ -76,8 +76,6 @@ export const UpdateRecipe = async (
 
 	try {
 		if (recipe) {
-			// update the recipe
-
 			const found = await Recipe.findByIdAndUpdate(id, recipe, {
 				runValidators: true,
 			})
