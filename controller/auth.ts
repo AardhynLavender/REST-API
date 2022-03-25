@@ -2,10 +2,7 @@
  * @name 		Authentication
  * @author 		Aardhyn Lavender
  *
- * @description Controls the 'User' MongoDB collection, providing
- * 				basic GET, POST, PUT, and DELETE request operations as
- * 				well as routes to sort, paginate, and filter ingredients
- * 				in the database.
+ * @description Provides endpoints to register, login, and logout a given user
  */
 
 import { User, IUser } from '../models/user'
@@ -13,12 +10,21 @@ import { Request, Response } from 'express'
 import { AttachCookies } from '../utils/jwt'
 import { CreateTokenUser, ITokenUser } from '../utils/getTokenUserData'
 
+/**
+ * Defines the necessary credentials in order to authenticate a user
+ */
 export interface ICredentials {
 	username?: string
 	email: string
 	password: string
 }
 
+/**
+ * Registers a new user and authorizes routes for them
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns The state of the request -- successful or not
+ */
 export const Register = async (req: Request, res: Response): Promise<any> => {
 	try {
 		// register the new user
@@ -44,12 +50,18 @@ export const Register = async (req: Request, res: Response): Promise<any> => {
 	}
 }
 
+/**
+ * Attempts to authenticate routes for a user based on the provided credentials
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns Returns a tasty cookie if the users been good
+ */
 export const Login = async (req: Request, res: Response): Promise<any> => {
 	try {
 		const { username, email, password }: ICredentials = req.body
 
 		// validate users email or username
-		const user: IUser = await User.findOne({
+		const user: IUser | undefined = await User.findOne({
 			[username || email]: username || email,
 		})
 
@@ -81,6 +93,12 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 	}
 }
 
+/**
+ * Unauthenticated all routes by revoking the signed cookie token
+ * @param { Request } req request of the server
+ * @param { Response } res response from the server
+ * @returns The state of the request -- successful or not
+ */
 export const Logout = async (req: Request, res: Response): Promise<any> => {
 	const EMPTY: string = ''
 	const SECOND: number = 1000
