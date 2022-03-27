@@ -10,12 +10,11 @@ import { Schema, Model, model, ObjectId } from 'mongoose'
 // Interfaces /////////////////////////////////////////////
 
 export interface IIngredient {
-	_id: ObjectId
+	_id?: ObjectId
 	name: string
 	description?: string
 	brand?: string
 	type?: string
-	expiry?: Date
 }
 
 // Schemas ////////////////////////////////////////////////
@@ -25,7 +24,6 @@ const ingredient: Schema<IIngredient> = new Schema<IIngredient>({
 	description: { type: String, required: false, maxlength: 200 },
 	brand: { type: String, required: false, maxlength: 20 },
 	type: { type: String, required: false, maxlength: 20 },
-	expiry: { type: Date, required: false },
 })
 
 // Models /////////////////////////////////////////////////
