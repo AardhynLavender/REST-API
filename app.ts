@@ -10,7 +10,6 @@ const SECRET: string = process.env.JWT_SECRET
 // Configure Express //////////////////////////////
 
 import express from 'express'
-import cookieParser from 'cookie-parser'
 export const application = express()
 
 application.use(express.urlencoded({ extended: false }))
@@ -21,6 +20,19 @@ application.use(express.json())
 import helmet from 'helmet'
 application.use(helmet())
 
+// Traffic /////////////////////////////////////////
+
+const REQUESTS_PM: number = 25
+const WINDOW_MS: number = 1000 * 60 // 1 minute
+
+import rateLimit, { RateLimitInfo } from 'express-rate-limit'
+const limit: any = rateLimit({
+	windowMs: WINDOW_MS,
+	max: REQUESTS_PM,
+})
+
+application.use(limit)
+
 // MongoDB connection //////////////////////////////
 
 import { connection } from './db/connection'
@@ -28,6 +40,7 @@ import { connection } from './db/connection'
 // Authentication //////////////////////////////////
 
 import { authenticatedRoute } from './middleware/auth'
+import cookieParser from 'cookie-parser'
 
 application.use(cookieParser(SECRET))
 application.use('api/', authenticatedRoute)

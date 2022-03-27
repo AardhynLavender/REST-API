@@ -7,10 +7,16 @@
 		"format": "npx prettier --write .",
 		"start": "ts-node app.ts",
 		"local": "npm run format && nodemon app.ts",
-		
-		"ingredients:create" : "ts-node ./db/seeder ingredients",
-		"ingredients:delete" : "ts-node ./db/seeder ingredients -d",
-		
+		"ingredients:create": "ts-node ./db/seeder ingredients",
+		"ingredients:delete": "ts-node ./db/seeder ingredients -d",
+		"utensils:create": "ts-node ./db/seeder utensils",
+		"utensil:create": "ts-node ./db/seeder utensils -d",
+		"components:create": "ts-node ./db/seeder components",
+		"components:delete": "ts-node ./db/seeder components -d",
+		"recipes:create": "ts-node ./db/seeder recipes",
+		"recipes:delete": "ts-node ./db/seeder recipes -d",
+		"users:create": "ts-node ./db/seeder users",
+		"users:delete": "ts-node ./db/seeder users -d",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -28,6 +34,7 @@
 		"cookie-parser": "^1.4.6",
 		"dotenv": "^16.0.0",
 		"express": "^4.17.3",
+		"express-rate-limit": "^6.3.0",
 		"helmet": "^5.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"ts-node": "^10.6.0",
