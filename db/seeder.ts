@@ -45,7 +45,9 @@ const SeedCollection = async <TCollection, TSeed>(
 	try {
 		// repopulate collection with only seeded data
 		await collection.deleteMany()
-		await collection.insertMany(data)
+
+		// create documents individually to ensure any save methods and validation are called.
+		for (const object of data) await collection.create(object)
 	} catch (err) {
 		console.log(err || 'Collection seeding failed!')
 		process.exit(1)
