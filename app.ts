@@ -63,6 +63,10 @@ application.use('/api/v1/recipes/', authenticatedRoute, recipe)
 import auth from './routes/auth'
 application.use('/', auth)
 
+// all unmapped routes go to void
+import voidRoute from './routes/void'
+application.use('/', voidRoute)
+
 // Initialize Application //////////////////////////
 
 const ListenReporter = (): void => console.log('listening on ' + PORT + '!')
