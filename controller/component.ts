@@ -9,28 +9,16 @@
  */
 
 import { Component, IComponent } from '../models/component'
+import { TRequest, CreateGenericRoute } from './generic'
 import { Request, Response } from 'express'
 
 /**
- * Gets **all** components from the database
- * @param { Request } req request of the server
- * @param { Response } res response from the server
- * @returns all components in the collection
+ * A Request that fetches all components from the collection
  */
-export const GetComponents = async (
-	req: Request,
-	res: Response
-): Promise<any> => {
-	try {
-		const components: Array<IComponent> = await Component.find({})
-		return res.status(200).json({ success: true, data: components })
-	} catch (err) {
-		return res.status(500).json({
-			success: false,
-			message: err.message || 'components could not be fetched',
-		})
-	}
-}
+export const GetComponents: TRequest = CreateGenericRoute<IComponent>(
+	Component,
+	'components'
+)
 
 /**
  * Create a new component

@@ -54,7 +54,7 @@ import utensil from './routes/utensil'
 application.use('/api/v1/utensils/', authenticatedRoute, utensil)
 
 import component from './routes/component'
-application.use('/api/v1/component/', authenticatedRoute, component)
+application.use('/api/v1/components/', authenticatedRoute, component)
 
 import recipe from './routes/recipe'
 application.use('/api/v1/recipes/', authenticatedRoute, recipe)

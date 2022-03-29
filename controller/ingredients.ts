@@ -9,27 +9,16 @@
  */
 
 import { Ingredient, IIngredient } from '../models/ingredient'
+import { TRequest, CreateGenericRoute } from './generic'
 import { Request, Response } from 'express'
 
 /**
- * Gets **all** ingredients from the database
- * @param { Request } req request of the server
- * @param { Response } res response from the server
- * @returns all ingredients in the collection
+ * A Request that fetches all ingredients from the collection
  */
-export const GetIngredients = async (
-	req: Request,
-	res: Response
-): Promise<any> => {
-	try {
-		const ingredients: Array<IIngredient> = await Ingredient.find({})
-		return res.status(200).json({ success: 1, data: ingredients })
-	} catch (err) {
-		return res.status(500).json({
-			message: err.message || 'ingredients could not be fetched',
-		})
-	}
-}
+export const GetIngredients: TRequest = CreateGenericRoute<IIngredient>(
+	Ingredient,
+	'ingredients'
+)
 
 /**
  * Create a new **unique** ingredient

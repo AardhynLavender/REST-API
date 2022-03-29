@@ -10,26 +10,15 @@
 
 import { Utensil, IUtensil } from '../models/utensil'
 import { Request, Response } from 'express'
+import { TRequest, CreateGenericRoute } from './generic'
 
 /**
- * Gets **all** utensils from the database
- * @param { Request } req request of the server
- * @param { Response } res response from the server
- * @returns all utensils in the collection
+ * A Request that fetches all utensils from the collection
  */
-export const GetUtensils = async (
-	req: Request,
-	res: Response
-): Promise<any> => {
-	try {
-		const utensils: Array<IUtensil> = await Utensil.find({})
-		return res.status(200).json({ success: 1, data: utensils })
-	} catch (err) {
-		return res.status(400).json({
-			message: err.message || 'utensils could not be fetched',
-		})
-	}
-}
+export const GetUtensils: TRequest = CreateGenericRoute<IUtensil>(
+	Utensil,
+	'utensils'
+)
 
 /**
  * Create a new **unique** ingredient

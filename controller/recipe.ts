@@ -9,25 +9,16 @@
  */
 
 import { Recipe, IRecipe } from '../models/recipe'
+import { TRequest, CreateGenericRoute } from './generic'
 import { Request, Response } from 'express'
 
 /**
- * Gets **all** recipe from the database
- * @param { Request } req request of the server
- * @param { Response } res response from the server
- * @returns all recipes in the collection
+ * A Request that fetches all Recipes from the collection
  */
-export const GetRecipes = async (req: Request, res: Response): Promise<any> => {
-	try {
-		const recipes: Array<IRecipe> = await Recipe.find({})
-		return res.status(200).json({ success: true, data: recipes })
-	} catch (err) {
-		return res.status(500).json({
-			success: false,
-			message: err.message || 'recipes could not be fetched',
-		})
-	}
-}
+export const GetRecipes: TRequest = CreateGenericRoute<IRecipe>(
+	Recipe,
+	'recipes'
+)
 
 /**
  * Create a new recipe
