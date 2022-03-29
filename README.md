@@ -30,7 +30,7 @@ Login with a `username`|`email` and your `password` -- documented in Postman
 https://recipe-repository-api.herokuapp.com/login
 ```
 
-Successfully logging in will authenticate the application's routes for a specified amount -- clearing cache notwithstanding.
+Successfully logging in will authenticate the application's routes for an amount specified in your environment variables -- clearing cache notwithstanding.
 
 ### Base Endpoint
 

@@ -60,12 +60,15 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 	try {
 		const { username, email, password }: ICredentials = req.body
 
-		// validate users email or username
-		const user: IUser | undefined = await User.findOne({
-			[username || email]: username || email,
-		})
+		// are enough credentials present?
+		if ((username || email) && password) {
+			// validate users based on email or username
+			const user: IUser = await User.findOne({
+				$or: [{ username }, { email }],
+			})
 
-		if ((username || email) && password)
+			console.log(user)
+
 			if (user) {
 				// validate password
 				const valid: boolean = await user.ComparePassword(password)
@@ -84,7 +87,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 					})
 				} else throw 'Password was incorrect!'
 			} else throw 'User could not be found!'
-		else throw 'Invalid credentials!'
+		} else throw 'Invalid credentials!'
 	} catch (err) {
 		return res.status(401).json({
 			success: false,
