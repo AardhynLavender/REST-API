@@ -54,7 +54,7 @@ export const CreateIngredient = async (
 		} else
 			return res
 				.status(400)
-				.json({ success: false, message: 'Please provide a name' })
+				.json({ success: false, message: 'Please provide an ingredient' })
 	} catch (err) {
 		return res.status(400).json({
 			success: false,

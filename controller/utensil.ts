@@ -52,7 +52,7 @@ export const CreateUtensil = async (
 		} else
 			return res
 				.status(201)
-				.json({ success: false, message: 'Please provide a name' })
+				.json({ success: false, message: 'Please provide a utensil' })
 	} catch (err) {
 		res.status(400).json({
 			success: false,
