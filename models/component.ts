@@ -18,7 +18,7 @@ import { IUtensil, Utensil } from './utensil'
  * @example { 'egg', 'boil in water for 5 minutes', 'egg * serving amount' }
  */
 export interface ICondiment {
-	ingredient: ObjectId
+	ingredient: Types.ObjectId
 	method?: string
 	amount?: string
 }
@@ -28,23 +28,23 @@ export interface ICondiment {
  * @example boil egg, cook rice, etc.
  */
 export interface IComponent {
-	_id: ObjectId
+	_id?: Types.ObjectId
 	name: string
 
 	// who created this?
-	author: IUser
+	author: Types.ObjectId
 	authored: Date
 
 	// required condiments and utensils to create this component
 	condiments: Array<ICondiment>
-	utensils: Array<ObjectId>
+	utensils: Array<Types.ObjectId>
 
 	// what to do and how long?
 	method?: string
 	duration: number
 
 	// what do I have when I'm done?
-	results: Array<IIngredient>
+	results: Array<Types.ObjectId>
 }
 
 // Validation //////////////////////////////////
@@ -64,7 +64,7 @@ const mValidateDuration = (duration: Number): boolean => duration > 0
 const condiment: Schema<ICondiment> = new Schema<ICondiment>({
 	ingredient: {
 		ref: 'Ingredient',
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		required: true,
 		validate: {
 			validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
@@ -82,7 +82,7 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 	name: { type: String, required: true, unique: true, maxlength: 20 },
 	author: {
 		ref: 'User',
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		required: true,
 		validate: {
 			validator: CreateObjectValidator<IUser, IUser>(User),
@@ -94,7 +94,7 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 	utensils: [
 		{
 			ref: 'Utensil',
-			type: Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			validate: {
 				validator: CreateObjectValidator<IUtensil, IUtensil>(Utensil),
 				message: 'Utensil could not be found!',
@@ -107,7 +107,7 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 	results: [
 		{
 			ref: 'Ingredient',
-			type: Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			validate: {
 				validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
 				message: 'Resulting ingredient could not be found!',

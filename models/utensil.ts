@@ -5,7 +5,7 @@
  * @description Define schema and model interfaces and Mongoose types
  */
 
-import { Schema, Model, model, ObjectId } from 'mongoose'
+import { Schema, Model, model, Types } from 'mongoose'
 
 // Enumerators /////////////////////////////////////////
 
@@ -19,6 +19,7 @@ export enum Material {
 	CAST_IRON = 'CAST_IRON',
 	STEEL = 'STEEL',
 	PLASTIC = 'PLASTIC',
+	ELECTRONIC = 'ELECTRONIC',
 }
 
 /**
@@ -46,7 +47,7 @@ export enum Size {
  * @returns values as a string array
  */
 const mGetValues = (enumerator: IStringEnum): Array<string> =>
-	Object.values(enumerator).map((value: string) => value.toLowerCase())
+	Object.values(enumerator)
 
 // Interfaces //////////////////////////////////////////
 
@@ -62,7 +63,7 @@ interface IStringEnum {
  * Defines a utensil used in a recipes component
  */
 export interface IUtensil {
-	_id: ObjectId
+	_id?: Types.ObjectId
 	name: string
 	material: Material
 	size: Size

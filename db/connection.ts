@@ -1,3 +1,11 @@
+/**
+ * @name 		DatabaseConnection
+ * @author 		Aardhyn Lavender
+ *
+ * @description Connects to a MongoDB Database with the provided
+ * 				configuration and connection url
+ */
+
 import mongoose from 'mongoose'
 
 const options: any = {

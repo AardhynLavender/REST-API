@@ -1,3 +1,11 @@
+/**
+ * @name 		Seeder
+ * @author 		Aardhyn Lavender
+ *
+ * @description Seeds the specified collection and dependencies
+ * 				for testing and development purposes.
+ */
+
 import dotenv from 'dotenv'
 
 import { Model } from 'mongoose'
@@ -5,7 +13,11 @@ import { Model } from 'mongoose'
 import { Ingredient, IIngredient } from '../models/ingredient'
 import { connection } from './connection'
 
-import ingredients from '../data/ingredients.json'
+import { ingredients } from '../data/ingredients'
+import { utensils } from '../data/utensils'
+import { components } from '../data/components'
+import { recipes } from '../data/recipes'
+import { users } from '../data/users'
 
 import { IComponent, Component } from '../models/component'
 import { IUtensil, Utensil } from '../models/utensil'
@@ -39,7 +51,6 @@ const SeedCollection = async <TCollection, TSeed>(
 		process.exit(1)
 	} finally {
 		console.log('Collection seeding successful!')
-		process.exit(0)
 	}
 }
 
@@ -57,17 +68,25 @@ const PurgeCollection = async <TCollection>(
 		process.exit(1)
 	} finally {
 		console.log('Collection purge successful!')
-		process.exit(0)
 	}
+}
+/**
+ * Seed components and dependencies
+ */
+const SeedComponents = async (): Promise<void> => {
+	await SeedCollection<IUtensil, IUtensil>(Utensil, utensils)
+	await SeedCollection<IIngredient, IIngredient>(Ingredient, ingredients)
+	await SeedCollection<IUser, IUser>(User, users)
+	await SeedCollection<IComponent, IComponent>(Component, components)
 }
 
 /**
  * Entry point
  * @param argv command line argument variables
  */
-const main = (argv: Array<string>): void => {
-	const DELETE: number = 3
+const Main = async (argv: Array<string>): Promise<void> => {
 	const COLLECTION: number = 2
+	const DELETE: number = 3
 
 	// determine parameters
 	const deleteFlag: boolean = argv[DELETE] === '-d'
@@ -77,13 +96,42 @@ const main = (argv: Array<string>): void => {
 	if (collectionName) {
 		switch (collectionName.toLowerCase()) {
 			case 'ingredients':
-				if (deleteFlag) PurgeCollection<IIngredient>(Ingredient)
-				else SeedCollection<IIngredient, IIngredient>(Ingredient, ingredients)
-				break
+				if (deleteFlag) await PurgeCollection<IIngredient>(Ingredient)
+				else
+					await SeedCollection<IIngredient, IIngredient>(
+						Ingredient,
+						ingredients
+					)
+				process.exit(0)
+
+			case 'utensils':
+				if (deleteFlag) await PurgeCollection<IUtensil>(Utensil)
+				else await SeedCollection<IUtensil, IUtensil>(Utensil, utensils)
+				process.exit(0)
+
+			case 'components':
+				if (deleteFlag) await PurgeCollection<IComponent>(Component)
+				else await SeedComponents()
+				process.exit(0)
+
+			case 'recipes':
+				if (deleteFlag) await PurgeCollection<IRecipe>(Recipe)
+				else {
+					// must seed components first...
+					await SeedComponents()
+					await SeedCollection<IRecipe, IRecipe>(Recipe, recipes)
+				}
+				process.exit(0)
+
+			case 'users':
+				if (deleteFlag) await PurgeCollection<IUser>(User)
+				else await SeedCollection<IUser, IUser>(User, users)
+				process.exit(0)
+
 			default:
 				throw `'${collectionName}' collection could not be found!`
 		}
 	} else throw 'Collection to seed must be specified!'
 }
 
-main(process.argv)
+Main(process.argv)

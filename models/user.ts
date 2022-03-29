@@ -5,7 +5,7 @@
  * @description Define schema and model interfaces and Mongoose types
  */
 
-import { Schema, Model, model, ObjectId } from 'mongoose'
+import { Schema, Model, model, Types, ObjectId } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 // Interfaces //////////////////////////////////////////////
@@ -23,15 +23,15 @@ export interface IName {
  * Defines a user of the API
  */
 export interface IUser {
-	_id: ObjectId
+	_id?: Types.ObjectId
 	name: IName
 	email: string
 	username?: string
 	password: string
-	last_logged_in: Date
+	last_logged_in?: Date
 
-	ComparePassword(password: string): Promise<boolean>
-	HasLoggedIn(): void
+	ComparePassword?(password: string): Promise<boolean>
+	HasLoggedIn?(): void
 }
 
 // Schema ////////////////////////////////////////////

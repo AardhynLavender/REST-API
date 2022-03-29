@@ -5,12 +5,12 @@
  * @description Define schema and model interfaces and Mongoose types
  */
 
-import { Schema, Model, model, ObjectId } from 'mongoose'
+import { Schema, Model, model, Types } from 'mongoose'
 
 // Interfaces /////////////////////////////////////////////
 
 export interface IIngredient {
-	_id?: ObjectId
+	_id?: Types.ObjectId
 	name: string
 	description?: string
 	brand?: string

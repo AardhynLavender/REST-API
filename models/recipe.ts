@@ -16,11 +16,11 @@ import { Component, IComponent } from './component'
  * Defines a collection of components into a recipe
  */
 export interface IRecipe {
-	_id: ObjectId
+	_id?: Types.ObjectId
 	name: string
-	author: ObjectId
+	author: Types.ObjectId
 	authored: Date
-	components: Array<ObjectId>
+	components: Array<Types.ObjectId>
 	details?: string
 }
 
@@ -30,7 +30,7 @@ const recipe: Schema<IRecipe> = new Schema<IRecipe>({
 	name: { type: String, unique: true, required: true, maxlength: 20 },
 	author: {
 		ref: 'User',
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		required: true,
 		validate: {
 			validator: CreateObjectValidator<IUser, IUser>(User),

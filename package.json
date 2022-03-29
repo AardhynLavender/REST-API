@@ -10,7 +10,7 @@
 		"ingredients:create": "ts-node ./db/seeder ingredients",
 		"ingredients:delete": "ts-node ./db/seeder ingredients -d",
 		"utensils:create": "ts-node ./db/seeder utensils",
-		"utensil:create": "ts-node ./db/seeder utensils -d",
+		"utensils:delete": "ts-node ./db/seeder utensils -d",
 		"components:create": "ts-node ./db/seeder components",
 		"components:delete": "ts-node ./db/seeder components -d",
 		"recipes:create": "ts-node ./db/seeder recipes",
