@@ -9,6 +9,7 @@
  */
 
 import { Component, IComponent } from '../models/component'
+import { components } from '../data/components'
 import { TRequest, CreateGenericRoute } from './generic'
 import { Request, Response } from 'express'
 
@@ -17,7 +18,8 @@ import { Request, Response } from 'express'
  */
 export const GetComponents: TRequest = CreateGenericRoute<IComponent>(
 	Component,
-	'components'
+	'components',
+	Object.keys(components[0]) || []
 )
 
 /**

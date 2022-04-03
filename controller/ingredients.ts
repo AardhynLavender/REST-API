@@ -9,6 +9,7 @@
  */
 
 import { Ingredient, IIngredient } from '../models/ingredient'
+import { ingredients } from '../data/ingredients'
 import { TRequest, CreateGenericRoute } from './generic'
 import { Request, Response } from 'express'
 
@@ -17,7 +18,8 @@ import { Request, Response } from 'express'
  */
 export const GetIngredients: TRequest = CreateGenericRoute<IIngredient>(
 	Ingredient,
-	'ingredients'
+	'ingredients',
+	Object.keys(ingredients[0]) || []
 )
 
 /**

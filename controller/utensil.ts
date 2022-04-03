@@ -9,6 +9,7 @@
  */
 
 import { Utensil, IUtensil } from '../models/utensil'
+import { utensils } from '../data/utensils'
 import { Request, Response } from 'express'
 import { TRequest, CreateGenericRoute } from './generic'
 
@@ -17,7 +18,8 @@ import { TRequest, CreateGenericRoute } from './generic'
  */
 export const GetUtensils: TRequest = CreateGenericRoute<IUtensil>(
 	Utensil,
-	'utensils'
+	'utensils',
+	Object.keys(utensils[0]) || []
 )
 
 /**
