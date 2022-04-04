@@ -10,13 +10,13 @@
 
 import { Recipe, IRecipe } from '../models/recipe'
 import { recipes } from '../data/recipes'
-import { TRequest, CreateGenericRoute } from './generic'
+import { TRequest, CreateGenericGet } from './generic'
 import { Request, Response } from 'express'
 
 /**
  * A Request that fetches all Recipes from the collection
  */
-export const GetRecipes: TRequest = CreateGenericRoute<IRecipe>(
+export const GetRecipes: TRequest = CreateGenericGet<IRecipe>(
 	Recipe,
 	'recipes',
 	Object.keys(recipes[0]) || []

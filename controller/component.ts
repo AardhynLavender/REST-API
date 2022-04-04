@@ -10,13 +10,13 @@
 
 import { Component, IComponent } from '../models/component'
 import { components } from '../data/components'
-import { TRequest, CreateGenericRoute } from './generic'
+import { TRequest, CreateGenericGet } from './generic'
 import { Request, Response } from 'express'
 
 /**
  * A Request that fetches all components from the collection
  */
-export const GetComponents: TRequest = CreateGenericRoute<IComponent>(
+export const GetComponents: TRequest = CreateGenericGet<IComponent>(
 	Component,
 	'components',
 	Object.keys(components[0]) || []

@@ -11,12 +11,12 @@
 import { Utensil, IUtensil } from '../models/utensil'
 import { utensils } from '../data/utensils'
 import { Request, Response } from 'express'
-import { TRequest, CreateGenericRoute } from './generic'
+import { TRequest, CreateGenericGet } from './generic'
 
 /**
  * A Request that fetches all utensils from the collection
  */
-export const GetUtensils: TRequest = CreateGenericRoute<IUtensil>(
+export const GetUtensils: TRequest = CreateGenericGet<IUtensil>(
 	Utensil,
 	'utensils',
 	Object.keys(utensils[0]) || []

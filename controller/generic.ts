@@ -2,13 +2,12 @@
  * @name 		Generic
  * @author 		Aardhyn Lavender
  *
- * @description Provides templated routes for controllers
+ * @description Provides template typed routes for CRUD controllers
  */
 
 import { Model } from 'mongoose'
 import { Request, Response } from 'express'
 import { Types, FilterQuery } from 'mongoose'
-import { IOType } from 'child_process'
 
 /**
  * A function that accepts a `request` and provides a `response` promising `anything`
@@ -42,10 +41,10 @@ export const DefaultParams: IQueryParams = {
  * @param { Array<string> } interrogable array of properties that can be interrogated -- filtered and sorted by
  * @returns all `TObject` in the collection
  */
-export const CreateGenericRoute =
+export const CreateGenericGet =
 	<TObject>(
 		collection: Model<TObject>,
-		objectName: string = 'nameless Collection',
+		objectName: string = '<unnamed>',
 		interrogable: Array<string> = []
 	): TRequest =>
 	async (req: Request, res: Response): Promise<any> => {
@@ -80,7 +79,13 @@ export const CreateGenericRoute =
 				.skip(queryParams.page * queryParams.pageSize)
 				.limit(queryParams.limit || queryParams.pageSize)
 
-			return res.status(200).json({ success: true, data: objects })
+			// return appropriate success message
+			return res.status(200).json({
+				success: true,
+				data: objects.length
+					? objects
+					: `No ${objectName} match the provided query`, // I feel no objects is still successful; we successfully matched the query
+			})
 		} catch (err) {
 			return res.status(500).json({
 				success: false,

@@ -10,13 +10,13 @@
 
 import { Ingredient, IIngredient } from '../models/ingredient'
 import { ingredients } from '../data/ingredients'
-import { TRequest, CreateGenericRoute } from './generic'
+import { TRequest, CreateGenericGet } from './generic'
 import { Request, Response } from 'express'
 
 /**
  * A Request that fetches all ingredients from the collection
  */
-export const GetIngredients: TRequest = CreateGenericRoute<IIngredient>(
+export const GetIngredients: TRequest = CreateGenericGet<IIngredient>(
 	Ingredient,
 	'ingredients',
 	Object.keys(ingredients[0]) || []
