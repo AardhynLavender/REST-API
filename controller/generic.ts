@@ -15,17 +15,24 @@ import { IOType } from 'child_process'
  */
 export type TRequest = (req: Request, res: Response) => Promise<any>
 
+export enum Polarity {
+	'asc',
+	'desc',
+}
+
 export interface IQueryParams {
 	id?: Types.ObjectId | undefined
 	sort?: string
 	page: number
 	pageSize: number
+	polarity: Polarity
 	limit?: number
 }
 
 export const DefaultParams: IQueryParams = {
 	page: 0,
 	pageSize: 12,
+	polarity: Polarity.asc,
 }
 
 /**
@@ -69,7 +76,7 @@ export const CreateGenericRoute =
 			// filter, paginate, and sort objects based on query parameters
 			const objects: Array<TObject> = await collection
 				.find(filters)
-				.sort(sortProperty)
+				.sort({ [sortProperty]: queryParams.polarity })
 				.skip(queryParams.page * queryParams.pageSize)
 				.limit(queryParams.limit || queryParams.pageSize)
 
