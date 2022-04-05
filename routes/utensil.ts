@@ -16,6 +16,7 @@ import {
 } from '../controller/utensil'
 
 router.route('/').get(GetUtensils)
+router.route('/:id').get(GetUtensils)
 router.route('/').post(CreateUtensil)
 
 router.route('/:id').put(UpdateUtensil)

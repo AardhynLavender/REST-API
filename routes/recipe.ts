@@ -16,6 +16,7 @@ import {
 } from '../controller/recipe'
 
 router.route('/').get(GetRecipes)
+router.route('/:id').get(GetRecipes)
 router.route('/').post(CreateRecipe)
 
 router.route('/:id').put(UpdateRecipe)

@@ -16,6 +16,7 @@ import {
 } from '../controller/component'
 
 router.route('/').get(GetComponents)
+router.route('/:id').get(GetComponents)
 router.route('/').post(CreateComponent)
 
 router.route('/:id').put(UpdateComponent)

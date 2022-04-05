@@ -44,52 +44,66 @@ export const DefaultParams: IQueryParams = {
 export const CreateGenericGet =
 	<TObject>(
 		collection: Model<TObject>,
-		objectName: string = '<unnamed>',
+		collectionName: string = '<unnamed>',
 		interrogable: Array<string> = []
 	): TRequest =>
 	async (req: Request, res: Response): Promise<any> => {
 		try {
+			const { id } = req.params
 			const queryParams: IQueryParams = { ...DefaultParams, ...req.query }
 
-			// extract query params that are interrogable
-			const filters: FilterQuery<TObject> = Object.keys(queryParams)
-				.filter((property: string) => interrogable.includes(property))
-				.reduce(
-					(
-						filter: { [property in keyof TObject]?: any },
-						property: string
-					) => ({
-						...filter,
-						[property]: queryParams[property],
-					}),
-					{}
+			if (id) {
+				const object: TObject | undefined = await collection.findById(id)
+				return res.status(200).json({
+					success: !!object,
+					[object ? 'data' : 'message']:
+						object ||
+						`An id of ${id} yields no ${collectionName.substring(
+							0,
+							collectionName.length - 1
+						)}!`,
+				})
+			} else {
+				// extract query params that are interrogable
+				const filters: FilterQuery<TObject> = Object.keys(queryParams)
+					.filter((property: string) => interrogable.includes(property))
+					.reduce(
+						(
+							filter: { [property in keyof TObject]?: any },
+							property: string
+						) => ({
+							...filter,
+							[property]: queryParams[property],
+						}),
+						{}
+					)
+
+				// validate the sort parameter is interrogable
+				const sortProperty: string | undefined = interrogable.includes(
+					queryParams?.sort
 				)
+					? queryParams?.sort
+					: undefined
 
-			// validate the sort parameter is interrogable
-			const sortProperty: string | undefined = interrogable.includes(
-				queryParams?.sort
-			)
-				? queryParams?.sort
-				: undefined
+				// filter, paginate, and sort objects based on query parameters
+				const objects: Array<TObject> = await collection
+					.find(filters)
+					.sort({ [sortProperty]: queryParams.polarity })
+					.skip(queryParams.page * queryParams.pageSize)
+					.limit(queryParams.limit || queryParams.pageSize)
 
-			// filter, paginate, and sort objects based on query parameters
-			const objects: Array<TObject> = await collection
-				.find(filters)
-				.sort({ [sortProperty]: queryParams.polarity })
-				.skip(queryParams.page * queryParams.pageSize)
-				.limit(queryParams.limit || queryParams.pageSize)
-
-			// return appropriate success message
-			return res.status(200).json({
-				success: true,
-				data: objects.length
-					? objects
-					: `No ${objectName} match the provided query`, // I feel no objects is still successful; we successfully matched the query
-			})
+				// return appropriate success message
+				return res.status(200).json({
+					success: true,
+					data: objects.length
+						? objects
+						: `No ${collectionName} match the provided query`, // I feel no objects is still successful; we successfully matched the query
+				})
+			}
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
-				message: err.message || `${objectName} could not be fetched`,
+				message: err.message || `${collectionName} could not be fetched`,
 			})
 		}
 	}

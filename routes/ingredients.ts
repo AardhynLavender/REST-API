@@ -16,6 +16,7 @@ import {
 } from '../controller/ingredients'
 
 router.route('/').get(GetIngredients)
+router.route('/:id').get(GetIngredients)
 router.route('/').post(CreateIngredient)
 
 router.route('/:id').put(UpdateIngredient)
