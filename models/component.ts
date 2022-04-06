@@ -103,7 +103,14 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 		},
 	],
 	method: { type: String, required: true, maxlength: 100 },
-	duration: { type: Number, required: true, mValidateDuration },
+	duration: {
+		type: Number,
+		required: true,
+		validate: {
+			validator: mValidateDuration,
+			message: 'Duration must be greater than -1!',
+		},
+	},
 	results: [
 		{
 			ref: 'Ingredient',
