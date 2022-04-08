@@ -43,21 +43,28 @@ import { authenticatedRoute } from './middleware/auth'
 import cookieParser from 'cookie-parser'
 
 application.use(cookieParser(SECRET))
-application.use('api/', authenticatedRoute)
+application.use(`api/`, authenticatedRoute)
 
 // Import routes ///////////////////////////////////
 
+const VERSION: number = 1
+const prefix: string = `/api/v${VERSION}`
+
 import ingredients from './routes/ingredients'
-application.use('/api/v1/ingredients', authenticatedRoute, ingredients)
+application.use(
+	`/api/v${VERSION}/ingredients/`,
+	authenticatedRoute,
+	ingredients
+)
 
 import utensil from './routes/utensil'
-application.use('/api/v1/utensils/', authenticatedRoute, utensil)
+application.use(`${prefix}/utensils`, authenticatedRoute, utensil)
 
 import component from './routes/component'
-application.use('/api/v1/components/', authenticatedRoute, component)
+application.use(`${prefix}/components`, authenticatedRoute, component)
 
 import recipe from './routes/recipe'
-application.use('/api/v1/recipes/', authenticatedRoute, recipe)
+application.use(`${prefix}/recipes`, authenticatedRoute, recipe)
 
 // Intentionally unauthenticated
 import auth from './routes/auth'

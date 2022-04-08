@@ -15,5 +15,5 @@ import { Request, Response } from 'express'
  * @returns standard error message
  */
 export const VoidRoute = async (req: Request, res: Response): Promise<any> => {
-	res.status(204).json({ success: false, message: 'Endpoint not found!' })
+	res.status(404).json({ success: false, message: 'Endpoint not found!' })
 }
