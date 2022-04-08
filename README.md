@@ -27,7 +27,7 @@ Before requesting, Register a user using the `/register` endpoint -- explained i
 Login with a `username`|`email` and your `password` -- documented in Postman
 
 ```url
-https://recipe-repository-api.herokuapp.com/login
+https://id1000096681-laveat1.herokuapp.com/login
 ```
 
 Successfully logging in will authenticate the application's routes for an amount specified in your environment variables -- clearing cache notwithstanding.
@@ -35,7 +35,7 @@ Successfully logging in will authenticate the application's routes for an amount
 ### Base Endpoint
 
 ```url
-https://recipe-repository-api.herokuapp.com/v1/
+https://id1000096681-laveat1.herokuapp.com/api/v1/
 ```
 
 see the ~~[API documentation]()~~ for the available functions
@@ -108,7 +108,7 @@ JWT_LIFETIME=<integer><unit>
 npm start
 ```
 
-#### Development Run -- Nodemon
+#### Development Run -- Nodemon and Prettier
 
 Restarts the node process based on changes
 
@@ -120,10 +120,11 @@ just use `npm run format` to format without running. alternatively, configure pr
 
 No test scripts have been configured, `npm run test` does nothing.
 
-### Deployment Configuration ( Heroku )
+### Deployment ( Heroku )
 
-```bash
+Create a new application in Heroku, and use the **Connect to GitHub** option, for private repo's this will
+require authentication.
 
-```
+Use the information in the aforementioned `template.env` and create _config vars_ in Heroku for these in the settings pane.
 
 ---
