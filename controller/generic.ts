@@ -201,11 +201,16 @@ export const CreateGenericDelete =
 		const { id } = req.params
 
 		try {
-			const component: TObject = await collection.findByIdAndRemove(id)
+			const object: TObject = await collection.findByIdAndRemove(id)
 
-			if (component) {
+			if (object) {
 				const mutated: Array<TObject> = await collection.find({})
-				return res.status(200).json({ success: true, data: mutated })
+				return res.status(200).json({
+					success: true,
+					data: mutated.length
+						? mutated
+						: `No ${objectType} documents remain in the collection`,
+				})
 			} else
 				return res.status(404).json({
 					success: false,
