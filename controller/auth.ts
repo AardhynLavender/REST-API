@@ -67,8 +67,6 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 				$or: [{ username }, { email }],
 			})
 
-			console.log(user)
-
 			if (user) {
 				// validate password
 				const valid: boolean = await user.ComparePassword(password)
