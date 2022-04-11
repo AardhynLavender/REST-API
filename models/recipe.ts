@@ -49,6 +49,7 @@ const recipe: Schema<IRecipe> = new Schema<IRecipe>({
 			},
 		},
 	],
+	details: { type: 'string', required: false, maxlength: 50 },
 })
 
 // Mongoose Methods //////////////////////////////////////////
