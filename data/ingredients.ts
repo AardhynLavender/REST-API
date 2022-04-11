@@ -1,3 +1,11 @@
+/**
+ * @name 		IngredientSeed
+ * @author 		Aardhyn Lavender
+ *
+ * @description Seeds the ingredient collection and for testing
+ *              and development purposes.
+ */
+
 import { IIngredient } from '../models/ingredient'
 import { Types } from 'mongoose'
 

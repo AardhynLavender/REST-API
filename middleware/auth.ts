@@ -2,14 +2,21 @@
  * @name 		Authentication
  * @author 		Aardhyn Lavender
  *
- * @description
+ * @description Validates correct authentication has been provided
+ * 				for routes employing this middleware.
  */
 
 import jwt from 'jsonwebtoken'
 import { IsTokenValid } from '../utils/jwt'
 import { Request, Response } from 'express'
-import { User } from '../models/user'
 
+/**
+ * validates authentication state before processing route
+ * @param req request of the API
+ * @param res response for the caller
+ * @param next route to call given valid authentication
+ * @returns a promise of something -- the signature of the `next` could be `any`
+ */
 export const authenticatedRoute = async (
 	req: Request,
 	res: Response,

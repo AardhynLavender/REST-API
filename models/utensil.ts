@@ -38,8 +38,7 @@ export enum Size {
 	MEASURED = 'MEASURED',
 }
 
-// Utilities ///////////////////////////////////////////
-// TODO :: Move this function into utils...
+// Utility /////////////////////////////////////////////
 
 /**
  * Creates a string of values from an enumerator

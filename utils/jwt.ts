@@ -1,3 +1,11 @@
+/**
+ * @name 		JWS
+ * @author 		Aardhyn Lavender
+ *
+ * @description	Creation and validation for JWS tokens plus
+ * 				signed cookie embedding
+ */
+
 import jwt from 'jsonwebtoken'
 import { Response } from 'express'
 import { ITokenUser } from './getTokenUserData'
@@ -37,10 +45,12 @@ export const AttachCookies = (response: Response, user: ITokenUser): void => {
 	const NAME: string = 'token'
 	const DAY: number = 1000 * 60 * 60 * 24
 
+	// compute cookie configuration
 	const token: string = CreateToken(user)
 	const isProduction: boolean = process.env.NODE_ENV === 'production'
 	const expiry: Date = new Date(Date.now() + DAY)
 
+	// attach cookie
 	response.cookie(NAME, token, {
 		httpOnly: true,
 		expires: expiry,

@@ -1,4 +1,12 @@
-// Access Environment Variables ///////////////////
+/**
+ * @name 		App
+ * @author 		aardhyn lavender
+ *
+ * @description root level configuration and application
+ * 				entry point.
+ */
+
+// Environment Variables ///////////////////////////
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -7,7 +15,7 @@ const PORT: string = process.env.PORT || '4000'
 const MONGO: string = process.env.MONGO_URI
 const SECRET: string = process.env.JWT_SECRET
 
-// Configure Express //////////////////////////////
+// Configure Express ///////////////////////////////
 
 import express from 'express'
 export const application = express()

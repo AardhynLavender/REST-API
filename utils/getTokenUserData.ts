@@ -1,3 +1,11 @@
+/**
+ * @name 		GetTokenUserData
+ * @author 		Aardhyn Lavender
+ *
+ * @description	Create authenticated token based on user
+ * 			    data for signed cookies
+ */
+
 import { IUser } from '../models/user'
 
 export interface ITokenUser {
