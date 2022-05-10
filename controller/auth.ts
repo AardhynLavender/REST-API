@@ -79,7 +79,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 					user.HasLoggedIn()
 
 					// return the authenticated users' data
-					return res.status(201).json({
+					return res.status(200).json({
 						success: true,
 						data: user,
 					})
