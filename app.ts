@@ -28,12 +28,24 @@ application.use(express.json())
 import helmet from 'helmet'
 application.use(helmet())
 
+import cors from 'cors'
+application.use(
+	cors({
+		origin: '*', // Public API
+	})
+)
+application.use(
+	cors({
+		credentials: true,
+	})
+)
+
 // Traffic /////////////////////////////////////////
 
 const REQUESTS_PM: number = 25
 const WINDOW_MS: number = 1000 * 60 // 1 minute
 
-import rateLimit, { RateLimitInfo } from 'express-rate-limit'
+import rateLimit from 'express-rate-limit'
 const limit: any = rateLimit({
 	windowMs: WINDOW_MS,
 	max: REQUESTS_PM,
