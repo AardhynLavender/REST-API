@@ -27,19 +27,15 @@ export interface ICredentials {
  */
 export const Register = async (req: Request, res: Response): Promise<any> => {
 	try {
-		// register the new user
 		const user: IUser = await User.create(req.body)
+		const token: string | object = user.CreateJWT()
 
-		// create a token
-		const token: ITokenUser = CreateTokenUser(user)
-		AttachCookies(res, token)
-
-		// update last logged in time
 		user.HasLoggedIn()
 
 		// return the authenticated users' data
 		return res.status(201).json({
 			success: true,
+			token: token,
 			data: user,
 		})
 	} catch (err) {
@@ -72,8 +68,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 				const valid: boolean = await user.ComparePassword(password)
 
 				if (valid) {
-					const token: ITokenUser = CreateTokenUser(user)
-					AttachCookies(res, token)
+					const token: string | object = user.CreateJWT()
 
 					// update last logged in time
 					user.HasLoggedIn()
@@ -81,6 +76,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 					// return the authenticated users' data
 					return res.status(200).json({
 						success: true,
+						token: token,
 						data: user,
 					})
 				} else throw 'Password was incorrect!'

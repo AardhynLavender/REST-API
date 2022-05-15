@@ -6,6 +6,7 @@
  */
 
 import { Schema, Model, model, Types, ObjectId } from 'mongoose'
+import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 // Interfaces //////////////////////////////////////////////
@@ -17,6 +18,11 @@ export interface IName {
 	first: string
 	last: string
 	middleNames?: Array<string>
+}
+
+export interface ITokenUser {
+	name: string
+	id: string
 }
 
 /**
@@ -32,6 +38,7 @@ export interface IUser {
 
 	ComparePassword?(password: string): Promise<boolean>
 	HasLoggedIn?(): void
+	CreateJWT?(): string | object
 }
 
 // Schema ////////////////////////////////////////////
@@ -82,6 +89,17 @@ user.methods.ComparePassword = function (password: string): Promise<boolean> {
  */
 user.methods.HasLoggedIn = function (): void {
 	this.last_logged_in = new Date()
+}
+
+user.methods.CreateJWT = function (): string | object {
+	return jwt.sign(
+		{
+			id: this._id,
+			name: this.name,
+		},
+		process.env.JWT_SECRET,
+		{ expiresIn: process.env.JWT_LIFETIME }
+	)
 }
 
 // Models ////////////////////////////////////////////////

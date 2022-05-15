@@ -23,9 +23,10 @@ export const authenticatedRoute = async (
 	next: any // next() could be `any` method
 ): Promise<any> => {
 	try {
-		const token = req.signedCookies.token
+		const auth: string = req.headers.authorization
 
-		if (token) {
+		if (auth && auth.startsWith('Bearer ')) {
+			const token: string = auth.split(' ')[1]
 			const payload: string | jwt.JwtPayload = IsTokenValid(token)
 
 			// narrow type to jwtPayload
