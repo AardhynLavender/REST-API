@@ -34,11 +34,11 @@ application.use(
 		origin: '*', // Public API
 	})
 )
-application.use(
-	cors({
-		credentials: true,
-	})
-)
+
+// application.use((req, res, next) => {
+// 	res.header('Access-Control-Allow-Origin', '*')
+// 	next()
+// })
 
 // Traffic /////////////////////////////////////////
 
