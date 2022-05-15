@@ -32,10 +32,6 @@ import cors from 'cors'
 application.use(
 	cors({
 		origin: '*', // Public API
-	})
-)
-application.use(
-	cors({
 		credentials: true,
 	})
 )
