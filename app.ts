@@ -32,6 +32,7 @@ import cors from 'cors'
 application.use(
 	cors({
 		origin: '*', // Public API
+<<<<<<< HEAD
 	})
 )
 
@@ -39,6 +40,11 @@ application.use(
 // 	res.header('Access-Control-Allow-Origin', '*')
 // 	next()
 // })
+=======
+		credentials: true,
+	})
+)
+>>>>>>> c454e15d98cde2a31470cfc380fdfe838c2aae90
 
 // Traffic /////////////////////////////////////////
 
