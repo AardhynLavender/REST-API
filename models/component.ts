@@ -36,7 +36,7 @@ export interface IComponent {
 	authored: Date
 
 	// required condiments and utensils to create this component
-	condiments: Array<ICondiment>
+	condiments: Array<Types.ObjectId>
 	utensils: Array<Types.ObjectId>
 
 	// what to do and how long?
@@ -90,7 +90,18 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 		},
 	},
 	authored: { type: Date, required: false },
-	condiments: [{ type: condiment, required: false }],
+	condiments: [
+		{
+			ref: 'Ingredient',
+			type: Schema.Types.ObjectId,
+			required: true,
+			validate: {
+				validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
+				message: 'Ingredient for Condiment was not found!',
+			},
+		},
+	],
+	// condiments: [{ type: condiment, required: false }], // Original Implementation...
 	utensils: [
 		{
 			ref: 'Utensil',

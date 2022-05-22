@@ -6,7 +6,7 @@
  *              and development purposes.
  */
 
-import { Component, IComponent } from '../models/component'
+import { IComponent } from '../models/component'
 import { seeded_user } from './users'
 import { Types } from 'mongoose'
 import { seeded_ingredients } from './ingredients'
@@ -23,13 +23,7 @@ export const components: Array<IComponent> = [
 		name: 'Heat Beans',
 		author: seeded_user,
 		authored: new Date(Date.now()),
-		condiments: [
-			{
-				ingredient: seeded_ingredients.bakedBeans, // baked beans can
-				method: 'open can and place contents in pot',
-				amount: 'whole can',
-			},
-		],
+		condiments: [seeded_ingredients.bakedBeans],
 		utensils: [seeded_utensils.pot, seeded_utensils.spoon],
 		duration: 6,
 		results: [seeded_ingredients.bakedBeans], // yields baked beans
@@ -40,13 +34,7 @@ export const components: Array<IComponent> = [
 		name: 'toast Bread',
 		author: seeded_user,
 		authored: new Date(Date.now()),
-		condiments: [
-			{
-				ingredient: seeded_ingredients.bread, // baked beans can
-				method: 'two slices of bread per person',
-				amount: 'people served * 2',
-			},
-		],
+		condiments: [seeded_ingredients.bread],
 		utensils: [seeded_utensils.toaster],
 		duration: 5,
 		results: [seeded_ingredients.toast], // yields baked beans
