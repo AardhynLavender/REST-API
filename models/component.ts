@@ -97,7 +97,7 @@ const component: Schema<IComponent> = new Schema<IComponent>({
 			required: true,
 			validate: {
 				validator: CreateObjectValidator<IIngredient, IIngredient>(Ingredient),
-				message: 'Ingredient for Condiment was not found!',
+				message: 'Ingredient was not found!',
 			},
 		},
 	],

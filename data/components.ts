@@ -23,7 +23,7 @@ export const components: Array<IComponent> = [
 		name: 'Heat Beans',
 		author: seeded_user,
 		authored: new Date(Date.now()),
-		condiments: [seeded_ingredients.bakedBeans],
+		condiments: [seeded_ingredients.bakedBeans, seeded_ingredients.bakedBeans],
 		utensils: [seeded_utensils.pot, seeded_utensils.spoon],
 		duration: 6,
 		results: [seeded_ingredients.bakedBeans], // yields baked beans

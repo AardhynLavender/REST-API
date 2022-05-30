@@ -179,7 +179,7 @@ export const CreateGenericPut =
 					message: `Request body contains no ${objectType}!`,
 				})
 		} catch (err) {
-			return res.status(404).json({
+			return res.status(500).json({
 				success: false,
 				message: err || 'Failed to update!',
 			})
