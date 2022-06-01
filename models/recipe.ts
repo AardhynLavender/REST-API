@@ -21,7 +21,7 @@ export interface IRecipe {
 	author: Types.ObjectId
 	authored: Date
 	components: Array<Types.ObjectId>
-	details?: string
+	detail?: string
 }
 
 // Schemas ///////////////////////////////////////////////////
@@ -49,7 +49,7 @@ const recipe: Schema<IRecipe> = new Schema<IRecipe>({
 			},
 		},
 	],
-	details: { type: 'string', required: false, maxlength: 50 },
+	detail: { type: 'string', required: false, maxlength: 50 },
 })
 
 // Mongoose Methods //////////////////////////////////////////

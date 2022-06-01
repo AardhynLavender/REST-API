@@ -16,6 +16,6 @@ export const recipes: Array<IRecipe> = [
 		author: seeded_user,
 		authored: new Date(Date.now()),
 		components: [seeded_components.toastBread, seeded_components.heatBeans],
-		details: 'straightforward meal',
+		detail: 'straightforward meal',
 	},
 ]
