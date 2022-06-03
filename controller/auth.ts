@@ -39,7 +39,7 @@ export const Register = async (req: Request, res: Response): Promise<any> => {
 			data: user,
 		})
 	} catch (err) {
-		return res.status(401).json({
+		return res.status(500).json({
 			success: false,
 			msg: err || 'unhandled exception; something went wrong!',
 		})
@@ -83,7 +83,7 @@ export const Login = async (req: Request, res: Response): Promise<any> => {
 			} else throw 'User could not be found!'
 		} else throw 'Invalid credentials!'
 	} catch (err) {
-		return res.status(401).json({
+		return res.status(500).json({
 			success: false,
 			msg: err || 'unhandled exception; something went wrong!',
 		})
