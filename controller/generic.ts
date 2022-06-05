@@ -132,12 +132,12 @@ export const CreateGenericPost =
 
 				return res.status(201).send({ success: true, data: objects })
 			} else
-				return res.status(201).json({
+				return res.status(400).json({
 					success: false,
 					message: `Please provide a ${objectType}`,
 				})
 		} catch (err) {
-			return res.status(409).json({
+			return res.status(500).json({
 				success: false,
 				message: err || `Failed to create ${objectType}`,
 			})
@@ -174,7 +174,7 @@ export const CreateGenericPut =
 						message: `An id of ${id} yields no ${objectType} and cannot be mutated`,
 					})
 			} else
-				return res.status(404).json({
+				return res.status(400).json({
 					success: false,
 					message: `Request body contains no ${objectType}!`,
 				})
