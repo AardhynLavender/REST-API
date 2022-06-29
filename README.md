@@ -1,5 +1,7 @@
 # Node REST API - Aardhyn Lavender 2022
 
+My second year BIT assignment REST API submission, awarding a grade of 99.25%
+
 ## Application Description
 
 The application will provide the functionality to create, read, update, and delete information in a recipe repository
@@ -118,34 +120,36 @@ Use `npm run format` to format without running. Alternatively, configure prettie
 
 No test scripts have been configured, `npm run test` does nothing
 
-### Deployment ( Heroku )
+## Deployment ( Heroku )
 
-#### If you store a remote branch of your repository on **GitHub**, the steps are quite simple:
+There are a couple of options to consider when deploying to Heroku. Automatically with **GitHub**, or manually with the **Heroku CLI**
+
+### GitHub
 
 - Create a new application in Heroku.
 - Select the **Connect to GitHub** deployment method under **Deploy**, ( private GitHub repositories will require authentication )
-- Enable automatic deploys, and your production build is good to go!
+- Enable automatic deploys and select your deployment branch
+- _Your production build is good to go!_
 
 This method makes use of **GitHub WebHooks** to automatically deploy your application when you push to the specified remote branch
 
-#### If you wish to deploy without **GitHub** or just want to control your deployments manually, we can use the **Heroku CLI**:
+### Heroku CLI
 
 Follow the steps [here](https://devcenter.heroku.com/articles/heroku-command-line) to install the **Heroku CLI**
 
-If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key
+Log in to your Heroku account from the CLI
+
+_from project root_
 
 ```shell
-cd < project root >
 heroku login
 heroku git:remote -a < app name >
 ```
 
-Push your local `main` to the `heroku` remote branch -- this is your `deployment`
+Push your local `main` ( or another branch ) to the `heroku` remote branch with
 
 ```shell
 git push heroku main
 ```
 
-For both **GitHub** and **Heroku CLI** methods you will need to configure the production environment
-
-Use the information in the aforementioned `template.env` to create _config vars_ in Heroku for these in the `settings pane`
+that's it! I'd recommend setting up a deployment `npm script` to make this easier.
